@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "844158076165",
+    "project_id": "artify-c71e0",
+    "storage_bucket": "artify-c71e0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:844158076165:android:9dd630003c4bb20240236c",
+        "android_client_info": {
+          "package_name": "com.ahmed.artify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdu9F0hFU4V2NFFP19UdnitEpVW9LB3hw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
