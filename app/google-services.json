@@ -12,7 +12,20 @@
           "package_name": "com.ahmed.artify"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "844158076165-2fmggp357torr33f7m43qo7btr2fv2ns.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ahmed.artify",
+            "certificate_hash": "c7c7a7dcf45dceb0210a38cd2736b86b5277ee3b"
+          }
+        },
+        {
+          "client_id": "844158076165-o50ae6n4amndkomcu84g25mhrr6f42sa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCdu9F0hFU4V2NFFP19UdnitEpVW9LB3hw"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "844158076165-o50ae6n4amndkomcu84g25mhrr6f42sa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
