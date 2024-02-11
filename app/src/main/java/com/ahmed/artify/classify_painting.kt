@@ -13,6 +13,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.ahmed.artify.ml.ArtistModel
+import com.ahmed.artify.ml.StyleModel
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.TensorImage
@@ -23,6 +24,7 @@ class classify_painting : AppCompatActivity() {
 
     lateinit var upload_button: ImageView
     lateinit var artist_predict_button: Button
+    lateinit var style_predict_button: Button
     lateinit var image_uploaded: ImageView
     lateinit var upload_linear_layout: LinearLayout
     lateinit var bitmap: Bitmap
@@ -33,10 +35,12 @@ class classify_painting : AppCompatActivity() {
 
         upload_button = findViewById(R.id.classify_image_upload_button)
         artist_predict_button = findViewById(R.id.classify_image_artist)
+        style_predict_button = findViewById(R.id.classify_image_style_button)
         image_uploaded = findViewById(R.id.classify_image_uploaded)
         upload_linear_layout = findViewById(R.id.classify_image_upload_image)
 
-        var labels = application.assets.open("labels.txt").bufferedReader().readLines()
+        var artist_labels = application.assets.open("labels.txt").bufferedReader().readLines()
+        var style_labels = application.assets.open("style_labels.txt").bufferedReader().readLines()
 
         var imageProcessor = ImageProcessor.Builder()
             .add(ResizeOp(244, 244, ResizeOp.ResizeMethod.BILINEAR))
@@ -53,7 +57,6 @@ class classify_painting : AppCompatActivity() {
 
             var tensorImage = TensorImage(DataType.FLOAT32)
             tensorImage.load(bitmap)
-
             tensorImage = imageProcessor.process(tensorImage)
 
             val model = ArtistModel.newInstance(this)
@@ -70,7 +73,32 @@ class classify_painting : AppCompatActivity() {
                     maxIdx = index
                 }
             }
-            Toast.makeText(this, labels[maxIdx],Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, artist_labels[maxIdx],Toast.LENGTH_SHORT).show()
+
+            model.close()
+        }
+
+        style_predict_button.setOnClickListener {
+
+            var tensorImage = TensorImage(DataType.FLOAT32)
+            tensorImage.load(bitmap)
+            tensorImage = imageProcessor.process(tensorImage)
+
+            val model = StyleModel.newInstance(this)
+
+            val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 244, 244, 3), DataType.FLOAT32)
+            inputFeature0.loadBuffer(tensorImage.buffer)
+
+            val outputs = model.process(inputFeature0)
+            val outputFeature0 = outputs.outputFeature0AsTensorBuffer.floatArray
+
+            var maxIdx = 0
+            outputFeature0.forEachIndexed{index, fl ->
+                if(outputFeature0[maxIdx]<fl){
+                    maxIdx = index
+                }
+            }
+            Toast.makeText(this, style_labels[maxIdx],Toast.LENGTH_SHORT).show()
 
             model.close()
         }
