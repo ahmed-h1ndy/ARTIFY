@@ -15,11 +15,7 @@
         <activity
             android:name=".game_artist"
             android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
         </activity>
         <activity
@@ -29,7 +25,14 @@
         </activity>
         <activity
             android:name=".classify_painting"
-            android:exported="true" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true" />

@@ -8,7 +8,7 @@
     android:background="@color/primary">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/classify_image_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Discover Arts"
@@ -21,19 +21,31 @@
         android:textSize="36sp"
         android:fontFamily="@font/inter"/>
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/classify_image_title"
+        android:id="@+id/classify_image_uploaded"
+        android:src="@drawable/baseline_image_search_24"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="16dp"
+        android:visibility="invisible"
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/textView2"
-        android:id="@+id/upload_image"
+        app:layout_constraintTop_toBottomOf="@id/classify_image_title"
+        android:id="@+id/classify_image_upload_image"
         android:background="@drawable/upload_image_background"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="16dp"
         >
         <ImageView
             android:layout_gravity="center"
-            android:id="@+id/imageView"
+            android:id="@+id/classify_image_upload_button"
             android:layout_width="84dp"
             android:layout_height="84dp"
             android:layout_marginTop="64dp"
@@ -43,12 +55,13 @@
             app:layout_constraintTop_toBottomOf="@+id/textView2"/>
 
         <TextView
+            android:id="@+id/classify_image_upload_label"
             android:layout_marginTop="16dp"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Upload a gallery photo"
-            app:layout_constraintBottom_toBottomOf="@id/imageView"
+            app:layout_constraintBottom_toBottomOf="@id/classify_image_upload_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:textColor="@color/black"
@@ -61,7 +74,7 @@
         android:layout_marginTop="8dp"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        app:layout_constraintTop_toBottomOf="@id/upload_image"
+        app:layout_constraintTop_toBottomOf="@id/classify_image_upload_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/inquire"/>
@@ -74,18 +87,18 @@
         android:text="You want to know about ..?"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/upload_image"
+        app:layout_constraintTop_toBottomOf="@+id/classify_image_upload_image"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:fontFamily="@font/inter"/>
 
     <Button
         android:layout_marginTop="32dp"
-        android:id="@+id/button"
+        android:id="@+id/classify_image_style_button"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:text="Style"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintEnd_toStartOf="@+id/classify_image_artist"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         android:textColor="@color/white"
@@ -94,12 +107,12 @@
 
     <Button
         android:layout_marginTop="32dp"
-        android:id="@+id/button2"
+        android:id="@+id/classify_image_artist"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:text="Artist"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/button"
+        app:layout_constraintStart_toEndOf="@id/classify_image_style_button"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         android:textColor="@color/white"
         android:fontFamily="@font/inter"
