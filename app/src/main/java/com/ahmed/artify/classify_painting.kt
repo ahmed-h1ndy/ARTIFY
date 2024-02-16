@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import com.ahmed.artify.explore.ExploreActivity
 import com.ahmed.artify.ml.ArtistModel
 import com.ahmed.artify.ml.StyleModel
 import org.tensorflow.lite.DataType
@@ -28,7 +29,7 @@ class classify_painting : AppCompatActivity() {
     lateinit var image_uploaded: ImageView
     lateinit var upload_linear_layout: LinearLayout
     lateinit var bitmap: Bitmap
-
+    lateinit var classify_image_title:TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_classify_painting)
@@ -38,6 +39,13 @@ class classify_painting : AppCompatActivity() {
         style_predict_button = findViewById(R.id.classify_image_style_button)
         image_uploaded = findViewById(R.id.classify_image_uploaded)
         upload_linear_layout = findViewById(R.id.classify_image_upload_image)
+
+
+        classify_image_title=findViewById(R.id.classify_image_title)
+        classify_image_title.setOnClickListener {
+            startActivity(Intent(this@classify_painting,ExploreActivity::class.java))
+        }
+
 
         var artist_labels = application.assets.open("labels.txt").bufferedReader().readLines()
         var style_labels = application.assets.open("style_labels.txt").bufferedReader().readLines()
