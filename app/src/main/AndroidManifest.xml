@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-      <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
-        android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -12,24 +13,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ARTIFY"
+        android:usesCleartextTraffic="true"
         tools:targetApi="34">
         <activity
-            android:name=".explore.ExploreActivity"
-            android:exported="false" />
-        <activity
-            android:name=".game_artist"
-            android:exported="true"></activity>
-        <activity
-            android:name=".game_main"
-            android:exported="true"></activity>
-        <activity
-            android:name=".classify_painting"
-            android:exported="true">
+            android:name=".ExploreActivity"
+            android:exported="true" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".explore.ExploreActivity"
+            android:exported="false" />
+        <activity
+            android:name=".game_artist"
+            android:exported="true" />
+        <activity
+            android:name=".game_main"
+            android:exported="true" />
+        <activity
+            android:name=".classify_painting"
+            android:exported="true">
+
         </activity>
         <activity
             android:name=".MainActivity"

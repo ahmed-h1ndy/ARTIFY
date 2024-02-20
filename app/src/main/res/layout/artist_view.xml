@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="144dp"
+    android:layout_height="164dp"
+    android:padding="8dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/artist_imagecard"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_margin="5dp"
+        android:elevation="10dp"
+        app:cardCornerRadius="1600dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    <ImageView
+        android:id="@+id/artist_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/davinci"
+        android:scaleType="centerCrop"/>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/artist_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:fontFamily="@font/inter"
+        app:layout_constraintEnd_toEndOf="@+id/artist_imagecard"
+        app:layout_constraintStart_toStartOf="@+id/artist_imagecard"
+        app:layout_constraintTop_toBottomOf="@+id/artist_imagecard" />
+</androidx.constraintlayout.widget.ConstraintLayout>

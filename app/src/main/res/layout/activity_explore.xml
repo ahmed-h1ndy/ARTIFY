@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ExploreActivity"
+    android:background="@color/primary">
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_marginTop="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Explore"
+        android:textColor="@color/black"
+        android:fontFamily="@font/inter"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:background="@drawable/curved_white"
+        android:layout_marginTop="32dp"
+        android:layout_marginHorizontal="8dp"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView12">
+
+        <ImageView
+            android:id="@+id/imageView10"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/gray_search"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/editTextText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_marginLeft="12dp"
+            android:ems="10"
+            android:inputType="text"
+            android:hint="Liam Princip"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView10"
+            app:layout_constraintTop_toTopOf="@+id/imageView10" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_marginTop="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+        android:background="@drawable/curved_secondary"
+        android:padding="4dp"
+        android:layout_marginHorizontal="8dp"
+        >
+
+        <Button
+            android:id="@+id/explore_styles_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Styles"
+            app:layout_constraintEnd_toStartOf="@+id/explore_artists_button"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/curved_secondary"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:fontFamily="@font/inter"/>
+
+        <Button
+            android:id="@+id/explore_artists_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Artists"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/explore_styles_button"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/curved_secondary"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:fontFamily="@font/inter"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:layout_marginTop="24dp"
+        android:id="@+id/explore_fragment"
+        android:name="com.ahmed.artify.artist_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/explore_nav_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/explore_nav_bar"
+        android:name="com.ahmed.artify.bottom_nav_bar"
+        android:layout_width="match_parent"
+        android:layout_height="128dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

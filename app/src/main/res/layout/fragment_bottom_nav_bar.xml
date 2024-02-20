@@ -47,7 +47,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/null_center"
-            android:src="@drawable/baseline_search_24" />
+            android:src="@drawable/baseline_search_white" />
 
         <TextView
             android:id="@+id/textView3"
