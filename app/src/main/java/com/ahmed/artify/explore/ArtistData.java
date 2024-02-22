@@ -7,9 +7,9 @@ import java.util.List;
 public class ArtistData {
 
     @SerializedName("data")
-    private List<Artist> ArtistList;
+    private List<ArtArtist> artArtistList;
 
-    public List<Artist> getArtistList() {
-        return ArtistList;
+    public List<ArtArtist> getArtistList() {
+        return artArtistList;
     }
 }

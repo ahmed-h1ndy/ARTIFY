@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class artists_adapter(private val artists:List<Artist>): RecyclerView.Adapter<artists_adapter.artists_view_holder>() {
+public class ArtistsAdapter(private val artists:List<Artist>): RecyclerView.Adapter<ArtistsAdapter.artists_view_holder>() {
     inner class artists_view_holder(view: View): RecyclerView.ViewHolder(view){
 
         val artist_image: ImageView = view.findViewById(R.id.artist_image)
@@ -27,7 +27,7 @@ class artists_adapter(private val artists:List<Artist>): RecyclerView.Adapter<ar
     override fun onBindViewHolder(holder: artists_view_holder, position: Int) {
         val artist = artists[position]
         holder.artist_name.text = artist.name
-
+        holder.artist_image.setImageBitmap(artist.image)
     }
 
 }

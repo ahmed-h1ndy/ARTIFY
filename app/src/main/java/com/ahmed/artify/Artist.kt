@@ -1,3 +1,5 @@
 package com.ahmed.artify
 
-data class Artist(val name:String, val image:String)
+import android.graphics.Bitmap
+
+data class Artist(val name:String, val image:Bitmap)

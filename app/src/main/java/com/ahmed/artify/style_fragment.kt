@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ahmed.artify.explore.ApiRequests
 
 
 class style_fragment : Fragment(R.layout.fragment_style) {
@@ -16,17 +16,8 @@ class style_fragment : Fragment(R.layout.fragment_style) {
         super.onViewCreated(view, savedInstanceState)
 
         style_recycler = view.findViewById(R.id.style_recycler)
-        styles = ArrayList()
-
-        style_recycler.adapter = styles_adapter(fetch_data())
-        style_recycler.layoutManager = GridLayoutManager(context,2)
+        val api = ApiRequests()
+        api.getAllArtStyles(style_recycler, context)
     }
 
-    private fun fetch_data(): List<Style> {
-        styles.add(Style("Japanese Art","something","none"))
-        styles.add(Style("Japanese Art","something","none"))
-        styles.add(Style("Japanese Art","something","none"))
-        styles.add(Style("Japanese Art","something","none"))
-        return styles;
-    }
 }

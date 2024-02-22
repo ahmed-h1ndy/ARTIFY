@@ -2,7 +2,7 @@ package com.ahmed.artify.explore;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Artist {
+public class ArtArtist {
 
 
     @SerializedName("id")

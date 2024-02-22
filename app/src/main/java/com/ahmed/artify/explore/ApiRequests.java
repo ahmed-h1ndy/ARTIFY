@@ -1,20 +1,23 @@
 package com.ahmed.artify.explore;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.ahmed.artify.Artist;
+import com.ahmed.artify.ArtistsAdapter;
+import com.ahmed.artify.Style;
+import com.ahmed.artify.StylesAdapter;
+
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,7 +33,7 @@ public class ApiRequests {
     Call<ArtStyleData>callArtStyle;
     public ApiRequests() {
          retrofit=new Retrofit.Builder()
-                .baseUrl("http://192.168.1.3:5000/")
+                .baseUrl("http://192.168.1.106:5000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -81,8 +84,9 @@ public class ApiRequests {
                         Log.i("style id",String.valueOf(paintingArrayList.get(0).getP_art_style_id()));
                         Log.i("id",String.valueOf(paintingArrayList.get(0).getP_id()));
                         Log.i("image",paintingArrayList.get(0).getP_image());
-                        textView.setText(String.valueOf(paintingArrayList.get(2).getP_art_style_id()));
-                        byte[] Bytes= decodeImage(paintingArrayList.get(1).getP_image());
+
+                        textView.setText(String.valueOf(paintingArrayList.get(1).getP_art_style_id()));
+                        byte[] Bytes= decodeImage(paintingArrayList.get(0).getP_image());
                         Bitmap decodedImage = BitmapFactory.decodeByteArray(Bytes, 0, Bytes.length);
 
                         // Display the Bitmap in an ImageView
@@ -150,8 +154,8 @@ public class ApiRequests {
         });
         return paintingArrayList;
     }
-    private List<Artist> ArtistArrayList;
-    public  List<Artist> getAllArtists()
+    private List<ArtArtist> artArtistArrayList;
+    public List<ArtArtist> getArtists(RecyclerView artist_recycler, Context context)
     {
         callArtist =apiInterface.get_all_artists();
         callArtist.enqueue(new Callback<ArtistData>() {
@@ -159,11 +163,25 @@ public class ApiRequests {
             public void onResponse(Call<ArtistData> call, Response<ArtistData> response) {
 
 
-                ArtistArrayList=response.body().getArtistList();
+                artArtistArrayList =response.body().getArtistList();
 
-                Log.i("ArtistName",String.valueOf(ArtistArrayList.get(0).getName()));
-                Log.i("Artist id",String.valueOf(ArtistArrayList.get(0).getA_id()));
-                Log.i("Artist image",ArtistArrayList.get(0).getA_image());
+                Log.i("ArtistName",String.valueOf(artArtistArrayList.get(3).getName()));
+                Log.i("Artist id",String.valueOf(artArtistArrayList.get(3).getA_id()));
+                Log.i("Artist image", artArtistArrayList.get(3).getA_image());
+
+                ArrayList<Artist> artists = new ArrayList<>();
+
+                String name;
+                Bitmap image;
+                for(int i = 0;i<artArtistArrayList.size();i++){
+                    name = String.valueOf(artArtistArrayList.get(i).getName());
+                    byte[] Bytes= decodeImage(artArtistArrayList.get(i).getA_image());
+                    image = BitmapFactory.decodeByteArray(Bytes, 0, Bytes.length);
+                    artists.add(new Artist(name, image));
+                }
+
+                artist_recycler.setAdapter(new ArtistsAdapter(artists));
+                artist_recycler.setLayoutManager(new GridLayoutManager(context,3));
 
             }
 
@@ -173,11 +191,12 @@ public class ApiRequests {
                 System.out.println(t.getStackTrace().toString());
             }
         });
-        return ArtistArrayList;
+        return artArtistArrayList;
 
     }
+
     private List<ArtStyle> ArtStyleArrayList;
-    public List<ArtStyle> getAllArtStyles()
+    public List<ArtStyle> getAllArtStyles(RecyclerView style_recycler, Context context)
     {
         callArtStyle =apiInterface.get_all_styles();
         callArtStyle.enqueue(new Callback<ArtStyleData>() {
@@ -189,6 +208,20 @@ public class ApiRequests {
                 Log.i("style name",String.valueOf(ArtStyleArrayList.get(0).getS_name()));
                 Log.i("style id",String.valueOf(ArtStyleArrayList.get(0).getS_id()));
                 Log.i("image",ArtStyleArrayList.get(0).getS_image());
+
+                ArrayList<Style> styles = new ArrayList<>();
+
+                String name;
+                Bitmap image;
+                for(int i = 0;i<ArtStyleArrayList.size();i++){
+                    name = String.valueOf(ArtStyleArrayList.get(i).getS_name());
+                    byte[] Bytes= decodeImage(ArtStyleArrayList.get(i).getS_image());
+                    image = BitmapFactory.decodeByteArray(Bytes, 0, Bytes.length);
+                    styles.add(new Style(name,"", image));
+                }
+
+                style_recycler.setAdapter(new StylesAdapter(styles));
+                style_recycler.setLayoutManager(new GridLayoutManager(context,2));
 
 
             }

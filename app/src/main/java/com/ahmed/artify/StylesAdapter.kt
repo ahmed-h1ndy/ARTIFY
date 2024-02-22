@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class styles_adapter(private val styles:List<Style>): RecyclerView.Adapter<styles_adapter.styles_view_holder>() {
+class StylesAdapter(private val styles:List<Style>): RecyclerView.Adapter<StylesAdapter.styles_view_holder>() {
     inner class styles_view_holder(view: View): RecyclerView.ViewHolder(view){
 
         val style_image: ImageView = view.findViewById(R.id.style_image)
@@ -29,6 +29,7 @@ class styles_adapter(private val styles:List<Style>): RecyclerView.Adapter<style
         val style = styles[position]
         holder.style_name.text = style.name
         holder.style_example.text = style.example
+        holder.style_image.setImageBitmap(style.image)
     }
 
 }
