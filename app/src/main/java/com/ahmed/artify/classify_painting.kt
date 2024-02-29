@@ -1,17 +1,20 @@
 package com.ahmed.artify
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Bitmap
-import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
+import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import com.ahmed.artify.explore.ApiRequests
 import com.ahmed.artify.explore.ExploreActivity
 import com.ahmed.artify.ml.ArtistModel
 import com.ahmed.artify.ml.StyleModel
@@ -30,6 +33,8 @@ class classify_painting : AppCompatActivity() {
     lateinit var upload_linear_layout: LinearLayout
     lateinit var bitmap: Bitmap
     lateinit var classify_image_title:TextView
+    lateinit var result: Dialog
+    lateinit var api: ApiRequests
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_classify_painting)
@@ -39,7 +44,13 @@ class classify_painting : AppCompatActivity() {
         style_predict_button = findViewById(R.id.classify_image_style_button)
         image_uploaded = findViewById(R.id.classify_image_uploaded)
         upload_linear_layout = findViewById(R.id.classify_image_upload_image)
-
+        api = ApiRequests()
+        if(api.artists==null){
+            api.initialize_artists {  }
+        }
+        if(api.styles==null){
+            api.initialize_styles {  }
+        }
 
         classify_image_title=findViewById(R.id.classify_image_title)
         classify_image_title.setOnClickListener {
@@ -55,10 +66,10 @@ class classify_painting : AppCompatActivity() {
             .build()
 
         upload_button.setOnClickListener {
-            var intent: Intent = Intent()
-            intent.action = Intent.ACTION_GET_CONTENT
-            intent.type = "image/*"
-            startActivityForResult(intent, 100)
+            upload_image()
+        }
+        image_uploaded.setOnClickListener {
+            upload_image()
         }
 
         artist_predict_button.setOnClickListener {
@@ -81,7 +92,15 @@ class classify_painting : AppCompatActivity() {
                     maxIdx = index
                 }
             }
-            Toast.makeText(this, artist_labels[maxIdx],Toast.LENGTH_SHORT).show()
+
+            if(api.artists!=null){
+                show_artist_result(artist_labels[maxIdx], api.artists)
+            }
+            else{
+                api.initialize_artists { artists->
+                    show_artist_result(artist_labels[maxIdx], artists)
+                }
+            }
 
             model.close()
         }
@@ -106,11 +125,69 @@ class classify_painting : AppCompatActivity() {
                     maxIdx = index
                 }
             }
-            Toast.makeText(this, style_labels[maxIdx],Toast.LENGTH_SHORT).show()
 
+            if(api.styles!=null){
+            show_style_result(style_labels[maxIdx], api.styles)
+            }
+            else{
+                    api.initialize_styles { styles->
+                        show_style_result(style_labels[maxIdx], styles)
+                    }
+            }
             model.close()
         }
 
+
+
+    }
+
+    private fun show_style_result(name: String, styles: ArrayList<Style>) {
+
+        result = Dialog(this)
+        result.requestWindowFeature(Window.ID_ANDROID_CONTENT)
+        result.setContentView(R.layout.classification_result)
+        result.window?.setBackgroundDrawableResource(R.drawable.curved_white_primary_stroke)
+
+        val style_img = result.findViewById<ImageView>(R.id.result_image)
+        val style_name = result.findViewById<TextView>(R.id.result_name)
+        val style_explore = result.findViewById<Button>(R.id.result_explore_button)
+        lateinit var style: Style
+        for(s in api.styles){
+            if(s.name.equals(name)){
+                style = s
+                break
+            }
+        }
+        style_img.setImageBitmap(style.image)
+        style_name.text = name
+
+
+        result.show()
+    }
+
+    private fun show_artist_result(name: String, artists: ArrayList<Artist>) {
+
+        result = Dialog(this)
+        result.requestWindowFeature(Window.ID_ANDROID_CONTENT)
+        result.setContentView(R.layout.classification_result)
+        result.window?.setBackgroundDrawableResource(R.drawable.curved_white_primary_stroke)
+
+        val artist_img = result.findViewById<ImageView>(R.id.result_image)
+        val artist_name = result.findViewById<TextView>(R.id.result_name)
+        val artist_explore = result.findViewById<Button>(R.id.result_explore_button)
+        lateinit var artist: Artist
+
+        for(a in api.artists){
+            if(a.name.equals(name)){
+                artist = a
+                break
+            }
+        }
+        artist_img.setImageBitmap(artist.image)
+        artist_name.text = name
+
+
+        result.show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -123,5 +200,13 @@ class classify_painting : AppCompatActivity() {
             image_uploaded.visibility = View.VISIBLE
             upload_linear_layout.visibility = View.INVISIBLE
         }
+    }
+
+
+    fun upload_image(){
+        var intent: Intent = Intent()
+        intent.action = Intent.ACTION_GET_CONTENT
+        intent.type = "image/*"
+        startActivityForResult(intent, 100)
     }
 }

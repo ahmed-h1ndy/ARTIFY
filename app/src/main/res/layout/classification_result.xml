@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
+    android:layout_height="600dp"
+    android:background="@drawable/curved_white_primary_stroke"
+    android:layout_gravity="center">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/result_artist_imagecard"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:layout_marginTop="48dp"
+        android:elevation="10dp"
+        app:cardCornerRadius="1600dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/result_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/davinci"
+            android:scaleType="centerCrop"/>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/result_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Random Random"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:fontFamily="@font/inter"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="@+id/result_artist_imagecard"
+        app:layout_constraintStart_toStartOf="@+id/result_artist_imagecard"
+        app:layout_constraintTop_toBottomOf="@+id/result_artist_imagecard" />
+<Button
+    android:id="@+id/result_explore_button"
+    android:layout_width="match_parent"
+    android:layout_marginHorizontal="72dp"
+    android:layout_marginTop="108dp"
+    android:layout_height="60dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/result_name"
+    android:text="Explore"
+    android:textColor="@color/white"
+    android:fontFamily="@font/inter"
+    android:textSize="20sp"
+    android:background="@drawable/button_primary"
+    />
+</androidx.constraintlayout.widget.ConstraintLayout>

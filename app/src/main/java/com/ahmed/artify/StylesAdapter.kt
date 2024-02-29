@@ -6,8 +6,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import java.util.ArrayList
 
-class StylesAdapter(private val styles:List<Style>): RecyclerView.Adapter<StylesAdapter.styles_view_holder>() {
+class StylesAdapter(private val styles: ArrayList<Style>): RecyclerView.Adapter<StylesAdapter.styles_view_holder>() {
     inner class styles_view_holder(view: View): RecyclerView.ViewHolder(view){
 
         val style_image: ImageView = view.findViewById(R.id.style_image)

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".game_artist"
-    android:background="@color/primary">
+    android:background="@color/white">
 
     <ImageView
         android:layout_marginTop="48dp"
@@ -60,7 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Who is the artist?"
-        android:textColor="@color/sixth"
+        android:textColor="@color/primary"
         android:fontFamily="@font/inter"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,7 +81,7 @@
         android:layout_height="wrap_content"
         android:text="Jan Van Eyck"
         android:textAllCaps="false"
-        android:background="@drawable/choice_button"
+        android:background="@drawable/curved_white_primary_stroke_small"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
@@ -102,7 +102,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:textAllCaps="false"
-        android:background="@drawable/choice_button"
+        android:background="@drawable/curved_white_primary_stroke_small"
         app:layout_constraintTop_toBottomOf="@+id/button3" />
 
     <Button
@@ -121,15 +121,15 @@
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/choice_button"
+        android:background="@drawable/curved_white_primary_stroke_small"
         app:layout_constraintTop_toBottomOf="@+id/button4" />
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
-        android:layout_height="8dp"
+        android:layout_height="12dp"
         android:progress="60"
-        app:indicatorColor="@color/fifth"
+        app:indicatorColor="@color/primary"
         app:trackColor="@color/white"
         android:layout_marginTop="32dp"
         android:layout_marginHorizontal="16dp"
@@ -138,7 +138,6 @@
         app:trackThickness="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
-
         />
     <fragment
         android:id="@+id/game_artist_bottom_bar"

@@ -4,20 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".classify_painting"
-    android:background="@color/primary">
+    tools:context=".classify_painting">
 
     <TextView
         android:id="@+id/classify_image_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Discover Arts"
+        android:text="Discover New Arts"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:textAlignment="center"
         android:layout_marginTop="64dp"
-        android:textColor="@color/third"
+        android:textColor="@color/primary"
         android:textSize="36sp"
         android:fontFamily="@font/inter"/>
 
@@ -95,28 +94,28 @@
     <Button
         android:layout_marginTop="32dp"
         android:id="@+id/classify_image_style_button"
-        android:layout_width="170dp"
-        android:layout_height="wrap_content"
+        android:layout_width="165dp"
+        android:layout_height="55dp"
         android:text="Style"
         app:layout_constraintEnd_toStartOf="@+id/classify_image_artist"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         android:textColor="@color/white"
         android:fontFamily="@font/inter"
-        android:background="@drawable/upload_photo_buttons_background"/>
+        android:background="@drawable/button_primary"/>
 
     <Button
         android:layout_marginTop="32dp"
         android:id="@+id/classify_image_artist"
-        android:layout_width="170dp"
-        android:layout_height="wrap_content"
+        android:layout_width="165dp"
+        android:layout_height="55dp"
         android:text="Artist"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/classify_image_style_button"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         android:textColor="@color/white"
         android:fontFamily="@font/inter"
-        android:background="@drawable/upload_photo_buttons_background" />
+        android:background="@drawable/button_primary" />
     <fragment
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"

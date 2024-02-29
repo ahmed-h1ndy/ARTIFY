@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-public class ArtistsAdapter(private val artists:List<Artist>): RecyclerView.Adapter<ArtistsAdapter.artists_view_holder>() {
+public class ArtistsAdapter(private val artists: ArrayList<Artist>): RecyclerView.Adapter<ArtistsAdapter.artists_view_holder>() {
     inner class artists_view_holder(view: View): RecyclerView.ViewHolder(view){
 
         val artist_image: ImageView = view.findViewById(R.id.artist_image)

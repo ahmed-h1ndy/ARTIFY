@@ -5,9 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="128dp"
+    android:layout_height="124dp"
     android:layout_gravity="bottom"
-    android:background="@color/primary"
     tools:context=".bottom_nav_bar">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,46 +29,46 @@
         <ImageView
             android:layout_marginEnd="48dp"
             android:layout_marginTop="8dp"
-            android:id="@+id/imageView5"
+            android:id="@+id/nav_quiz_button"
             android:layout_width="48dp"
             android:layout_height="48dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/games"
+            android:src="@drawable/games_black"
             app:layout_constraintEnd_toStartOf="@id/null_center"/>
 
         <ImageView
             android:layout_marginTop="8dp"
             android:layout_marginStart="48dp"
-            android:id="@+id/imageView7"
+            android:id="@+id/nav_explore_button"
             android:layout_width="48dp"
             android:layout_height="48dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/null_center"
-            android:src="@drawable/baseline_search_white" />
+            android:src="@drawable/baseline_search_black" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/nav_quiz_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="Games"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@+id/imageView5"
-            app:layout_constraintStart_toStartOf="@+id/imageView5"
-            app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="@+id/nav_quiz_button"
+            app:layout_constraintStart_toStartOf="@+id/nav_quiz_button"
+            app:layout_constraintTop_toBottomOf="@+id/nav_quiz_button" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/nav_explore_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="Explore"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@+id/imageView7"
-            app:layout_constraintStart_toStartOf="@+id/imageView7"
-            app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="@+id/nav_explore_button"
+            app:layout_constraintStart_toStartOf="@+id/nav_explore_button"
+            app:layout_constraintTop_toBottomOf="@+id/nav_explore_button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
@@ -79,11 +78,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center"
-        android:background="@drawable/primary_circle">
+        android:background="@drawable/upload_button_background"
+        android:gravity="center">
 
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/nav_classification_button"
         android:layout_marginTop="5dp"
         android:layout_width="104dp"
         android:layout_height="104dp"
@@ -92,8 +92,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center"
-        android:background="@drawable/upload_button_background">
+        android:gravity="center">
         <ImageView
             android:layout_marginTop="8dp"
             android:id="@+id/imageView6"

@@ -31,6 +31,9 @@ public class ApiRequests {
     Call<PaintingData> callPainting;
     Call<ArtistData> callArtist;
     Call<ArtStyleData>callArtStyle;
+
+    static private ArrayList<Artist> artists;
+    static private ArrayList<Style> styles;
     public ApiRequests() {
          retrofit=new Retrofit.Builder()
                 .baseUrl("http://192.168.1.106:5000")
@@ -154,63 +157,53 @@ public class ApiRequests {
         });
         return paintingArrayList;
     }
-    private List<ArtArtist> artArtistArrayList;
-    public List<ArtArtist> getArtists(RecyclerView artist_recycler, Context context)
+    private List<ArtArtist> temp_artists;
+    public void initialize_artists(onArtistsInitializedListener listener)
     {
         callArtist =apiInterface.get_all_artists();
         callArtist.enqueue(new Callback<ArtistData>() {
             @Override
             public void onResponse(Call<ArtistData> call, Response<ArtistData> response) {
 
-
-                artArtistArrayList =response.body().getArtistList();
-
-                Log.i("ArtistName",String.valueOf(artArtistArrayList.get(3).getName()));
-                Log.i("Artist id",String.valueOf(artArtistArrayList.get(3).getA_id()));
-                Log.i("Artist image", artArtistArrayList.get(3).getA_image());
-
-                ArrayList<Artist> artists = new ArrayList<>();
-
+                temp_artists =response.body().getArtistList();
+                artists = new ArrayList<>();
                 String name;
                 Bitmap image;
-                for(int i = 0;i<artArtistArrayList.size();i++){
-                    name = String.valueOf(artArtistArrayList.get(i).getName());
-                    byte[] Bytes= decodeImage(artArtistArrayList.get(i).getA_image());
+                for(int i = 0; i< temp_artists.size(); i++){
+                    name = String.valueOf(temp_artists.get(i).getName());
+                    byte[] Bytes= decodeImage(temp_artists.get(i).getA_image());
                     image = BitmapFactory.decodeByteArray(Bytes, 0, Bytes.length);
                     artists.add(new Artist(name, image));
                 }
-
-                artist_recycler.setAdapter(new ArtistsAdapter(artists));
-                artist_recycler.setLayoutManager(new GridLayoutManager(context,3));
-
+                if(listener!=null){
+                    listener.onArtistsInitialized(artists);
+                }
             }
 
             @Override
             public void onFailure(Call<ArtistData> call, Throwable t) {
-                System.out.println(t.getMessage());
-                System.out.println(t.getStackTrace().toString());
+                initialize_artists(listener);
             }
         });
-        return artArtistArrayList;
 
     }
+    public ArrayList<Artist> getArtists(){
+        return artists;
+    }
 
+    public interface onArtistsInitializedListener{
+        void onArtistsInitialized(ArrayList<Artist> artists);
+    }
     private List<ArtStyle> ArtStyleArrayList;
-    public List<ArtStyle> getAllArtStyles(RecyclerView style_recycler, Context context)
+    public void initialize_styles(final OnStylesInitializedListener listener)
     {
         callArtStyle =apiInterface.get_all_styles();
         callArtStyle.enqueue(new Callback<ArtStyleData>() {
             @Override
             public void onResponse(Call<ArtStyleData> call, Response<ArtStyleData> response) {
 
-
                 ArtStyleArrayList=response.body().getArtStyleList();
-                Log.i("style name",String.valueOf(ArtStyleArrayList.get(0).getS_name()));
-                Log.i("style id",String.valueOf(ArtStyleArrayList.get(0).getS_id()));
-                Log.i("image",ArtStyleArrayList.get(0).getS_image());
-
-                ArrayList<Style> styles = new ArrayList<>();
-
+                styles = new ArrayList<>();
                 String name;
                 Bitmap image;
                 for(int i = 0;i<ArtStyleArrayList.size();i++){
@@ -219,21 +212,64 @@ public class ApiRequests {
                     image = BitmapFactory.decodeByteArray(Bytes, 0, Bytes.length);
                     styles.add(new Style(name,"", image));
                 }
-
-                style_recycler.setAdapter(new StylesAdapter(styles));
-                style_recycler.setLayoutManager(new GridLayoutManager(context,2));
-
-
+                if (listener != null) {
+                    listener.onStylesInitialized(styles);
+                }
             }
 
             @Override
             public void onFailure(Call<ArtStyleData> call, Throwable t) {
-                System.out.println(t.getMessage());
-                System.out.println(t.getStackTrace().toString());
+                initialize_styles(listener);
             }
         });
-        return ArtStyleArrayList;
     }
+
+    public interface OnStylesInitializedListener {
+        void onStylesInitialized(ArrayList<Style> styles);
+    }
+
+    public ArrayList<Style> getStyles(){
+        return styles;
+    }
+
+    /*
+    private void initializeStyles(final RecyclerView styleRecyclerView, final Context context, final OnStylesInitializedListener listener) {
+    callArtStyle = apiInterface.get_all_styles();
+    callArtStyle.enqueue(new Callback<ArtStyleData>() {
+        @Override
+        public void onResponse(Call<ArtStyleData> call, Response<ArtStyleData> response) {
+            ArtStyleArrayList = response.body().getArtStyleList();
+            // Assuming ArtStyleArrayList is a member variable
+            List<Style> styles = new ArrayList<>();
+
+            String name;
+            Bitmap image;
+            for (int i = 0; i < ArtStyleArrayList.size(); i++) {
+                name = String.valueOf(ArtStyleArrayList.get(i).getS_name());
+                byte[] Bytes = decodeImage(ArtStyleArrayList.get(i).getS_image());
+                image = BitmapFactory.decodeByteArray(Bytes, 0, Bytes.length);
+                styles.add(new Style(name, "", image));
+            }
+
+            styleRecyclerView.setAdapter(new StylesAdapter(styles));
+            styleRecyclerView.setLayoutManager(new GridLayoutManager(context, 2));
+
+            if (listener != null) {
+                listener.onStylesInitialized(styles);
+            }
+        }
+
+        @Override
+        public void onFailure(Call<ArtStyleData> call, Throwable t) {
+            // Handle failure if needed
+        }
+    });
+}
+
+// Define an interface for the callback
+interface OnStylesInitializedListener {
+    void onStylesInitialized(List<Style> styles);
+} */
     public  byte[] decodeImage(String base64Img)
     {
         byte[] imageByte;

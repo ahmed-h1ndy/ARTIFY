@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".game_main"
-    android:background="@color/primary">
+    android:background="@color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_marginTop="64dp"
@@ -16,9 +16,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/main_game_box_background"
         android:layout_marginHorizontal="32dp"
-        android:elevation="20dp"
-        android:outlineAmbientShadowColor="@color/fifth"
-        android:outlineSpotShadowColor="@color/fifth">
+        android:elevation="8dp"
+        android:outlineAmbientShadowColor="@color/primary"
+        android:outlineSpotShadowColor="@color/primary">
 
         <ImageView
             android:id="@+id/main_game_image_background"
@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:src="@drawable/game_background"
+            android:src="@drawable/questions"
             android:layout_marginTop="32dp"/>
         <TextView
             android:id="@+id/main_game_label"
@@ -38,7 +38,7 @@
             app:layout_constraintTop_toBottomOf="@id/main_game_image_background"
             android:text="Test Your Level of Art"
             android:textAllCaps="false"
-            android:textColor="@color/white"
+            android:textColor="@color/primary"
             android:textSize="36sp"
             android:textAlignment="center"
             android:fontFamily="@font/inter"/>
@@ -52,13 +52,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/main_game_label"
             android:text="Style Quiz"
-            android:background="@drawable/button_primary"
-            android:textColor="@color/third"
+            android:background="@drawable/button_primary_white_stroke"
+            android:textColor="@color/white"
             android:textAllCaps="false"
             android:textSize="20sp"
             android:fontFamily="@font/inter"
             android:padding="12dp"
-            android:elevation="12dp"
+            android:elevation="8dp"
             android:stateListAnimator="@null"
             android:outlineAmbientShadowColor="@color/sixth"
             android:outlineSpotShadowColor="@color/sixth"/>
@@ -74,12 +74,12 @@
             app:layout_constraintTop_toBottomOf="@id/main_game_style_button"
             android:text="Artist Quiz"
             android:textAllCaps="false"
-            android:background="@drawable/button_primary"
-            android:textColor="@color/third"
+            android:background="@drawable/button_primary_white_stroke"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:fontFamily="@font/inter"
             android:padding="12dp"
-            android:elevation="12dp"
+            android:elevation="8dp"
             android:stateListAnimator="@null"
             android:outlineAmbientShadowColor="@color/sixth"
             android:outlineSpotShadowColor="@color/sixth"

@@ -1,10 +1,14 @@
 package com.ahmed.artify
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,16 +21,15 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class bottom_nav_bar : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    lateinit var classify:LinearLayout
+    lateinit var quiz_image:ImageView
+    lateinit var quiz_text:TextView
+    lateinit var explore_image:ImageView
+    lateinit var explore_text:TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -37,23 +40,45 @@ class bottom_nav_bar : Fragment() {
         return inflater.inflate(R.layout.fragment_bottom_nav_bar, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment bottom_nav_bar.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            bottom_nav_bar().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        classify = view.findViewById(R.id.nav_classification_button)
+        quiz_image = view.findViewById(R.id.nav_quiz_button)
+        quiz_text = view.findViewById(R.id.nav_quiz_text)
+        explore_image = view.findViewById(R.id.nav_explore_button)
+        explore_text = view.findViewById(R.id.nav_explore_text)
+
+        classify.setOnClickListener{
+            goToClassification()
+        }
+        quiz_image.setOnClickListener{
+            goToQuiz()
+        }
+        quiz_text.setOnClickListener{
+            goToQuiz()
+        }
+        explore_text.setOnClickListener{
+            goToExplore()
+        }
+        explore_image.setOnClickListener{
+            goToExplore()
+        }
+
+
     }
+
+    fun goToExplore(){
+        val intent = Intent(context, ExploreActivity::class.java)
+        startActivity(intent)
+    }
+    fun goToQuiz(){
+        val intent = Intent(context, game_main::class.java)
+        startActivity(intent)
+    }
+    fun goToClassification(){
+        val intent = Intent(context, classify_painting::class.java)
+        startActivity(intent)
+    }
+
 }
