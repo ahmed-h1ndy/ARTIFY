@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".game_artist"
+    tools:context=".Game.Artist.game_artist"
     android:background="@color/white">
 
     <ImageView
@@ -143,7 +143,7 @@
         android:id="@+id/game_artist_bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="128dp"
-        android:name="com.ahmed.artify.bottom_nav_bar"
+        android:name="com.ahmed.artify.Helpers.bottom_nav_bar"
         tools:layout="@layout/fragment_bottom_nav_bar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

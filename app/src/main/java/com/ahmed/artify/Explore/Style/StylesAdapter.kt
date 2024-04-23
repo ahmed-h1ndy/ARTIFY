@@ -1,14 +1,19 @@
-package com.ahmed.artify
+package com.ahmed.artify.Explore.Style
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.ahmed.artify.GameExpand.ExploreExpandActivity
+import com.ahmed.artify.Helpers.Style
+import com.ahmed.artify.R
 import java.util.ArrayList
 
-class StylesAdapter(private val styles: ArrayList<Style>): RecyclerView.Adapter<StylesAdapter.styles_view_holder>() {
+class StylesAdapter(private val styles: ArrayList<Style>, private val context:Context): RecyclerView.Adapter<StylesAdapter.styles_view_holder>() {
     inner class styles_view_holder(view: View): RecyclerView.ViewHolder(view){
 
         val style_image: ImageView = view.findViewById(R.id.style_image)
@@ -31,6 +36,12 @@ class StylesAdapter(private val styles: ArrayList<Style>): RecyclerView.Adapter<
         holder.style_name.text = style.name
         holder.style_example.text = style.example
         holder.style_image.setImageBitmap(style.image)
+
+        holder.style_image.setOnClickListener {
+            val intent = Intent(context, ExploreExpandActivity::class.java)
+            intent.putExtra("type", "style")
+            context.startActivity(intent)
+        }
     }
 
 }

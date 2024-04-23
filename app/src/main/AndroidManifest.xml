@@ -16,36 +16,33 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="34">
         <activity
-            android:name=".ExploreActivity"
-            android:exported="true" >
-
-
-        </activity>
+            android:name=".GameExpand.ExploreExpandActivity"
+            android:exported="false" />
         <activity
-            android:name=".explore.ExploreActivity"
-            android:exported="true" >
-
-
-        </activity>
+            android:name=".Explore.ExploreActivity"
+            android:exported="true"></activity>
         <activity
-            android:name=".game_artist"
+            android:name=".RetrofitClass.ExploreActivity"
+            android:exported="true"></activity>
+        <activity
+            android:name=".Game.Artist.game_artist"
             android:exported="true" />
         <activity
-            android:name=".game_main"
+            android:name=".Game.game_main"
             android:exported="true" />
         <activity
-            android:name=".classify_painting"
+            android:name=".Classify.classify_painting"
             android:exported="true">
 
-        </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".Login.LoginActivity"
+            android:exported="true">
 
         </activity>
     </application>

@@ -1,19 +1,13 @@
-package com.ahmed.artify.explore;
+package com.ahmed.artify.RetrofitClass;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.ahmed.artify.Artist;
-import com.ahmed.artify.ArtistsAdapter;
-import com.ahmed.artify.Style;
-import com.ahmed.artify.StylesAdapter;
+import com.ahmed.artify.Helpers.Artist;
+import com.ahmed.artify.Helpers.Style;
 
 import java.util.ArrayList;
 import java.util.Base64;
@@ -36,13 +30,10 @@ public class ApiRequests {
     static private ArrayList<Style> styles;
     public ApiRequests() {
          retrofit=new Retrofit.Builder()
-                .baseUrl("http://192.168.1.106:5000")
+                .baseUrl("http://192.168.1.101:5000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         apiInterface=retrofit.create(ApiInterface.class);
-
-
     }
 
     List<Painting> paintingArrayList;
@@ -182,6 +173,7 @@ public class ApiRequests {
 
             @Override
             public void onFailure(Call<ArtistData> call, Throwable t) {
+                Log.e("use corutoines baby", t.getMessage());
                 initialize_artists(listener);
             }
         });
@@ -219,7 +211,9 @@ public class ApiRequests {
 
             @Override
             public void onFailure(Call<ArtStyleData> call, Throwable t) {
+                Log.e("use corutoines baby", t.getMessage());
                 initialize_styles(listener);
+
             }
         });
     }
@@ -273,9 +267,6 @@ interface OnStylesInitializedListener {
     public  byte[] decodeImage(String base64Img)
     {
         byte[] imageByte;
-
-
-
         return Base64.getDecoder().decode(base64Img);
     }
 }

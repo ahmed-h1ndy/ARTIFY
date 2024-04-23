@@ -7,6 +7,16 @@
     android:background="@drawable/curved_white_primary_stroke"
     android:layout_gravity="center">
 
+    <ImageView
+        android:id="@+id/result_close"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@drawable/delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"/>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/result_artist_imagecard"
         android:layout_width="220dp"
@@ -19,8 +29,8 @@
         app:layout_constraintTop_toTopOf="parent">
         <ImageView
             android:id="@+id/result_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

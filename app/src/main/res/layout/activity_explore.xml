@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ExploreActivity">
+    tools:context=".Explore.ExploreActivity">
 
     <TextView
         android:id="@+id/textView12"
@@ -100,7 +100,7 @@
     <androidx.fragment.app.FragmentContainerView
         android:layout_marginTop="24dp"
         android:id="@+id/explore_fragment"
-        android:name="com.ahmed.artify.artist_fragment"
+        android:name="com.ahmed.artify.Explore.Artist.artist_fragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/explore_nav_bar"
@@ -110,7 +110,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/explore_nav_bar"
-        android:name="com.ahmed.artify.bottom_nav_bar"
+        android:name="com.ahmed.artify.Helpers.bottom_nav_bar"
         android:layout_width="match_parent"
         android:layout_height="128dp"
         app:layout_constraintBottom_toBottomOf="parent"

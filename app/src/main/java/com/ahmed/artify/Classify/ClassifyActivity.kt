@@ -1,21 +1,23 @@
-package com.ahmed.artify
+package com.ahmed.artify.Classify
 
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Bitmap
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-import com.ahmed.artify.explore.ApiRequests
-import com.ahmed.artify.explore.ExploreActivity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
+import com.ahmed.artify.Helpers.Artist
+import com.ahmed.artify.Helpers.Style
+import com.ahmed.artify.R
+import com.ahmed.artify.RetrofitClass.ApiRequests
+import com.ahmed.artify.RetrofitClass.ExploreActivity
 import com.ahmed.artify.ml.ArtistModel
 import com.ahmed.artify.ml.StyleModel
 import org.tensorflow.lite.DataType
@@ -151,15 +153,30 @@ class classify_painting : AppCompatActivity() {
         val style_img = result.findViewById<ImageView>(R.id.result_image)
         val style_name = result.findViewById<TextView>(R.id.result_name)
         val style_explore = result.findViewById<Button>(R.id.result_explore_button)
-        lateinit var style: Style
-        for(s in api.styles){
-            if(s.name.equals(name)){
-                style = s
-                break
-            }
+        val close = result.findViewById<ImageView>(R.id.result_close)
+
+        val img_card = result.findViewById<CardView>(R.id.result_artist_imagecard)
+
+
+        val imageViewWidth: Int = img_card.width
+        val imageViewHeight: Int = img_card.height
+        if (imageViewWidth > 0 && imageViewHeight > 0) {
+            bitmap = Bitmap.createScaledBitmap(bitmap, imageViewWidth, imageViewHeight, true)
         }
-        style_img.setImageBitmap(style.image)
+
+        // Set the scaled bitmap to the ImageView
+
+        // Set the scaled bitmap to the ImageView
+        style_img.setImageBitmap(bitmap)
+
+
         style_name.text = name
+
+        close.setOnClickListener {
+            image_uploaded.visibility = View.INVISIBLE
+            upload_linear_layout.visibility = View.VISIBLE
+            result.dismiss()
+        }
 
 
         result.show()
@@ -175,6 +192,7 @@ class classify_painting : AppCompatActivity() {
         val artist_img = result.findViewById<ImageView>(R.id.result_image)
         val artist_name = result.findViewById<TextView>(R.id.result_name)
         val artist_explore = result.findViewById<Button>(R.id.result_explore_button)
+        val close = result.findViewById<ImageView>(R.id.result_close)
         lateinit var artist: Artist
 
         for(a in api.artists){
@@ -186,6 +204,11 @@ class classify_painting : AppCompatActivity() {
         artist_img.setImageBitmap(artist.image)
         artist_name.text = name
 
+        close.setOnClickListener {
+            image_uploaded.visibility = View.INVISIBLE
+            upload_linear_layout.visibility = View.VISIBLE
+            result.dismiss()
+        }
 
         result.show()
     }

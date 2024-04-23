@@ -1,4 +1,4 @@
-package com.ahmed.artify.explore;
+package com.ahmed.artify.RetrofitClass;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

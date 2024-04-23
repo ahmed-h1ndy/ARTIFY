@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="175dp"
+    android:layout_height="160dp"
+    android:padding="4dp"
+    android:background="@drawable/white_curved_light_primary_stroke"
+    >
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/imagecard"
+        android:layout_width="164dp"
+        android:layout_height="90dp"
+        android:layout_margin="5dp"
+        android:elevation="10dp"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/expand_example"
+            android:layout_width="164dp"
+            android:layout_height="90dp"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/monalisa" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/expand_painting_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="150dp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/imagecard"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Monslisa"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:textSize="14sp"
+        android:fontFamily="sans-serif-condensed-medium"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

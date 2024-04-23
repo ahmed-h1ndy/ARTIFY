@@ -1,4 +1,4 @@
-package com.ahmed.artify.explore;
+package com.ahmed.artify.RetrofitClass;
 
 import com.google.gson.annotations.SerializedName;
 

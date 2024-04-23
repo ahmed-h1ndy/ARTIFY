@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".classify_painting">
+    tools:context=".Classify.classify_painting">
 
     <TextView
         android:id="@+id/classify_image_title"
@@ -120,7 +120,7 @@
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="128dp"
-        android:name="com.ahmed.artify.bottom_nav_bar"
+        android:name="com.ahmed.artify.Helpers.bottom_nav_bar"
         tools:layout="@layout/fragment_bottom_nav_bar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

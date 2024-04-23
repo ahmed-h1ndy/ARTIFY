@@ -1,4 +1,4 @@
-package com.ahmed.artify
+package com.ahmed.artify.Helpers
 
 import android.graphics.Bitmap
 

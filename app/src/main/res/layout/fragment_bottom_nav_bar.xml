@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="124dp"
     android:layout_gravity="bottom"
-    tools:context=".bottom_nav_bar">
+    tools:context=".Helpers.bottom_nav_bar">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -55,6 +55,7 @@
             android:layout_marginTop="4dp"
             android:text="Games"
             android:textColor="@color/black"
+            android:fontFamily="@font/inter"
             app:layout_constraintEnd_toEndOf="@+id/nav_quiz_button"
             app:layout_constraintStart_toStartOf="@+id/nav_quiz_button"
             app:layout_constraintTop_toBottomOf="@+id/nav_quiz_button" />
@@ -65,6 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="Explore"
+            android:fontFamily="@font/inter"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="@+id/nav_explore_button"
             app:layout_constraintStart_toStartOf="@+id/nav_explore_button"
@@ -108,7 +110,8 @@
             android:layout_width="wrap_content"
             android:layout_height="32dp"
             android:layout_marginTop="4dp"
-            android:text="Upload"
+            android:text="Classify"
+            android:fontFamily="@font/inter"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="@+id/imageView6"
             app:layout_constraintStart_toStartOf="@+id/imageView6"

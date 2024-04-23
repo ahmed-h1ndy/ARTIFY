@@ -1,12 +1,13 @@
-package com.ahmed.artify
+package com.ahmed.artify.Explore.Style
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ahmed.artify.explore.ApiRequests
-import com.ahmed.artify.explore.ApiRequests.OnStylesInitializedListener
+import com.ahmed.artify.Helpers.Style
+import com.ahmed.artify.R
+import com.ahmed.artify.RetrofitClass.ApiRequests
 
 
 class style_fragment : Fragment(R.layout.fragment_style) {
@@ -21,11 +22,11 @@ class style_fragment : Fragment(R.layout.fragment_style) {
 
 
         if (api.styles != null) {
-            style_recycler.adapter = StylesAdapter(api.styles)
+            style_recycler.adapter = StylesAdapter(api.styles, requireContext())
             style_recycler.layoutManager = GridLayoutManager(context, 2)
         } else {
             api.initialize_styles { styles ->
-                style_recycler.adapter = StylesAdapter(styles)
+                style_recycler.adapter = StylesAdapter(styles,requireContext())
                 style_recycler.layoutManager = GridLayoutManager(context, 2)
             }
         }

@@ -1,4 +1,4 @@
-package com.ahmed.artify
+package com.ahmed.artify.Explore
 
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +8,9 @@ import android.view.animation.TranslateAnimation
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.fragment.app.FragmentContainerView
+import com.ahmed.artify.Explore.Artist.artist_fragment
+import com.ahmed.artify.Explore.Style.style_fragment
+import com.ahmed.artify.R
 
 class ExploreActivity : AppCompatActivity() {
     lateinit var artists_button: Button

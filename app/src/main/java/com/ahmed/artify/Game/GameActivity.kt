@@ -1,9 +1,11 @@
-package com.ahmed.artify
+package com.ahmed.artify.Game
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import com.ahmed.artify.Game.Artist.game_artist
+import com.ahmed.artify.R
 
 class game_main : AppCompatActivity() {
 

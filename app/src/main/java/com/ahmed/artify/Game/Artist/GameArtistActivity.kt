@@ -1,7 +1,8 @@
-package com.ahmed.artify
+package com.ahmed.artify.Game.Artist
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.ahmed.artify.R
 
 class game_artist : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,13 +1,18 @@
-package com.ahmed.artify
+package com.ahmed.artify.Explore.Artist
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.ahmed.artify.GameExpand.ExploreExpandActivity
+import com.ahmed.artify.Helpers.Artist
+import com.ahmed.artify.R
 
-public class ArtistsAdapter(private val artists: ArrayList<Artist>): RecyclerView.Adapter<ArtistsAdapter.artists_view_holder>() {
+public class ArtistsAdapter(private val artists: ArrayList<Artist>, private val context:Context): RecyclerView.Adapter<ArtistsAdapter.artists_view_holder>() {
     inner class artists_view_holder(view: View): RecyclerView.ViewHolder(view){
 
         val artist_image: ImageView = view.findViewById(R.id.artist_image)
@@ -28,6 +33,12 @@ public class ArtistsAdapter(private val artists: ArrayList<Artist>): RecyclerVie
         val artist = artists[position]
         holder.artist_name.text = artist.name
         holder.artist_image.setImageBitmap(artist.image)
+
+        holder.artist_image.setOnClickListener {
+            val intent = Intent(context, ExploreExpandActivity::class.java)
+            intent.putExtra("type", "artist")
+            context.startActivity(intent)
+        }
     }
 
 }
