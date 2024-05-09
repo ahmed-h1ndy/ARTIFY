@@ -21,16 +21,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiRequests {
     final  Retrofit retrofit;
-    final ApiInterface apiInterface;
+    public final ApiInterface apiInterface;
     Call<PaintingData> callPainting;
     Call<ArtistData> callArtist;
     Call<ArtStyleData>callArtStyle;
-
-    static private ArrayList<Artist> artists;
-    static private ArrayList<Style> styles;
     public ApiRequests() {
          retrofit=new Retrofit.Builder()
-                .baseUrl("http://192.168.1.101:5000")
+                .baseUrl("http://192.168.1.102:5000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         apiInterface=retrofit.create(ApiInterface.class);
@@ -60,8 +57,6 @@ public class ApiRequests {
             }
         });
       //  return paintingArrayList.get(0);
-
-
     }
 
     public List<Painting> getAllPaintings(TextView textView, ImageView image)
@@ -149,15 +144,15 @@ public class ApiRequests {
         return paintingArrayList;
     }
     private List<ArtArtist> temp_artists;
-    public void initialize_artists(onArtistsInitializedListener listener)
+    public ArrayList<Artist> initialize_artists(onArtistsInitializedListener listener)
     {
         callArtist =apiInterface.get_all_artists();
+        ArrayList<Artist> artists = new ArrayList<>();
         callArtist.enqueue(new Callback<ArtistData>() {
             @Override
             public void onResponse(Call<ArtistData> call, Response<ArtistData> response) {
 
                 temp_artists =response.body().getArtistList();
-                artists = new ArrayList<>();
                 String name;
                 Bitmap image;
                 for(int i = 0; i< temp_artists.size(); i++){
@@ -170,16 +165,18 @@ public class ApiRequests {
                     listener.onArtistsInitialized(artists);
                 }
             }
-
             @Override
             public void onFailure(Call<ArtistData> call, Throwable t) {
                 Log.e("use corutoines baby", t.getMessage());
-                initialize_artists(listener);
+                //initialize_artists(listener);
             }
         });
-
-    }
-    public ArrayList<Artist> getArtists(){
+        try {
+            callArtist.wait();
+        }
+        catch(Exception e){
+            Log.i("use corutoins baby", e.getMessage());
+        }
         return artists;
     }
 
@@ -187,15 +184,15 @@ public class ApiRequests {
         void onArtistsInitialized(ArrayList<Artist> artists);
     }
     private List<ArtStyle> ArtStyleArrayList;
-    public void initialize_styles(final OnStylesInitializedListener listener)
+    public ArrayList<Style> initialize_styles(final OnStylesInitializedListener listener)
     {
         callArtStyle =apiInterface.get_all_styles();
+        ArrayList<Style> styles = new ArrayList<>();
         callArtStyle.enqueue(new Callback<ArtStyleData>() {
             @Override
             public void onResponse(Call<ArtStyleData> call, Response<ArtStyleData> response) {
 
                 ArtStyleArrayList=response.body().getArtStyleList();
-                styles = new ArrayList<>();
                 String name;
                 Bitmap image;
                 for(int i = 0;i<ArtStyleArrayList.size();i++){
@@ -212,18 +209,15 @@ public class ApiRequests {
             @Override
             public void onFailure(Call<ArtStyleData> call, Throwable t) {
                 Log.e("use corutoines baby", t.getMessage());
-                initialize_styles(listener);
+                //initialize_styles(listener);
 
             }
         });
+        return styles;
     }
 
     public interface OnStylesInitializedListener {
         void onStylesInitialized(ArrayList<Style> styles);
-    }
-
-    public ArrayList<Style> getStyles(){
-        return styles;
     }
 
     /*

@@ -41,7 +41,7 @@ class ExploreExpandActivity : AppCompatActivity() {
     private fun fill_van_gogh() {
 
         val api = ApiRequests()
-        big_image.setImageBitmap(api.artists[0].image)
+        //big_image.setImageBitmap(api.artists[0].image)
         example_image_1.setImageResource(R.drawable.van_gogh_2)
         example_image_2.setImageResource(R.drawable.van_gogh_1)
         example_name_1.text = "Fishing Boats on the Beach"
@@ -53,7 +53,7 @@ class ExploreExpandActivity : AppCompatActivity() {
     private fun fill_japanese() {
 
         val api = ApiRequests()
-        big_image.setImageBitmap(api.styles[2].image)
+        //big_image.setImageBitmap(api.styles[2].image)
         example_image_1.setImageResource(R.drawable.japanese_1)
         example_image_2.setImageResource(R.drawable.japanese_2)
         example_name_1.text = "The Great Wave off Kanagawa"
