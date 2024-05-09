@@ -182,6 +182,11 @@ class classify_painting : AppCompatActivity() {
         result.show()
     }
 
+
+
+
+
+
     private fun show_artist_result(name: String, artists: ArrayList<Artist>) {
 
         result = Dialog(this)
