@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import com.ahmed.artify.Explore.ExploreActivity
 import com.ahmed.artify.Game.game_main
 import com.ahmed.artify.R
-import com.ahmed.artify.Classify.classify_painting
+import com.ahmed.artify.Classify.ClassifyPainting
 
 /**
  * A simple [Fragment] subclass.
@@ -76,7 +76,7 @@ class bottom_nav_bar : Fragment() {
         startActivity(intent)
     }
     fun goToClassification(){
-        val intent = Intent(context, classify_painting::class.java)
+        val intent = Intent(context, ClassifyPainting::class.java)
         startActivity(intent)
     }
 

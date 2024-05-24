@@ -9,9 +9,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.view.Window
-import android.widget.Button
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -19,14 +17,13 @@ import com.ahmed.artify.Explore.ExploreActivity
 import com.ahmed.artify.Helpers.Artist
 import com.ahmed.artify.Helpers.Style
 import com.ahmed.artify.R
-import com.ahmed.artify.RetrofitClass.APIRequests
+import com.ahmed.artify.RetrofitClass.Api
 import com.ahmed.artify.RetrofitClass.ApiRequests
-import com.ahmed.artify.RetrofitClass.ArtArtist
+import com.ahmed.artify.databinding.ActivityClassifyPaintingBinding
 import com.ahmed.artify.ml.ArtistModel
 import com.ahmed.artify.ml.StyleModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.tensorflow.lite.DataType
@@ -34,269 +31,170 @@ import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.support.image.ops.ResizeOp
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
-import retrofit2.awaitResponse
 import java.util.Base64
 
-class classify_painting : AppCompatActivity() {
+class ClassifyPainting : AppCompatActivity() {
 
-    lateinit var upload_button: ImageView
-    lateinit var artist_predict_button: Button
-    lateinit var style_predict_button: Button
-    lateinit var image_uploaded: ImageView
-    lateinit var upload_linear_layout: LinearLayout
-    lateinit var bitmap: Bitmap
-    lateinit var classify_image_title:TextView
-    lateinit var result: Dialog
-    //lateinit var api: ApiRequests
-    lateinit var API:ApiRequests
-    lateinit var call:Job
-    var artists:ArrayList<Artist> = ArrayList()
-    var styles: ArrayList<Style> = ArrayList()
+    private lateinit var binding: ActivityClassifyPaintingBinding
+    private lateinit var bitmap: Bitmap
+    private lateinit var result: Dialog
+    private lateinit var imageProcessor: ImageProcessor
+    private lateinit var artistLabels: List<String>
+    private lateinit var styleLabels: List<String>
+    lateinit var api:ApiRequests
+    private var artists:ArrayList<Artist> = ArrayList()
+    private var styles: ArrayList<Style> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_classify_painting)
+        binding = ActivityClassifyPaintingBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        upload_button = findViewById(R.id.classify_image_upload_button)
-        artist_predict_button = findViewById(R.id.classify_image_artist)
-        style_predict_button = findViewById(R.id.classify_image_style_button)
-        image_uploaded = findViewById(R.id.classify_image_uploaded)
-        upload_linear_layout = findViewById(R.id.classify_image_upload_image)
-
-        //API = ApiRequests()
-
-        call = GlobalScope.launch(Dispatchers.IO){
-            //artists = API.initialize_artists{}
-
-            try{
-
-                val api = APIRequests()
-                val response = api.retrofitAPI.get_all_artists()
-                if(response.isSuccessful){
-                    var temp_artists = response.body()?.artistList
-
-                    var name: String
-                    var image: Bitmap?
-                    for (i in temp_artists!!.indices) {
-                        name = temp_artists[i].name.toString()
-                        val Bytes: ByteArray = decodeImage(temp_artists[i].a_image)!!
-                        image = BitmapFactory.decodeByteArray(Bytes, 0, Bytes.size)
-                        artists.add(Artist(name, image))
-                    }
-                }
-
-                else{
-
-                }
-            }catch (e:Exception){
-                Log.i("hoba lala", e.message!!)
+        MainScope().launch(Dispatchers.IO){
+            populateArtists()
+            populateStyles()
+            withContext(Dispatchers.Main){
+                binding.classifyImageArtist.visibility = View.VISIBLE
+                binding.classifyImageStyleButton.visibility = View.VISIBLE
+                binding.classifyImageLinearLayout.visibility = View.VISIBLE
+                binding.classifyImageProgressBar.visibility = View.GONE
             }
-
-
-            /*val callArtist = API.apiInterface._all_artists
-            val temp_artists: List<ArtArtist>? = callArtist.awaitResponse().body()?.artistList
-            var name: String
-            var image: Bitmap?
-            for (i in temp_artists!!.indices) {
-                name = temp_artists[i].name.toString()
-                val Bytes: ByteArray = decodeImage(temp_artists[i].a_image)!!
-                image = BitmapFactory.decodeByteArray(Bytes, 0, Bytes.size)
-                artists.add(Artist(name, image))
-            }
-*/
-            //styles = API.initialize_styles {}
-        }
-        /*api = ApiRequests()
-        if(api.artists==null){
-            api.initialize_artists {  }
-        }
-        if(api.styles==null){
-            api.initialize_styles {  }
-        }*/
-
-        classify_image_title=findViewById(R.id.classify_image_title)
-        classify_image_title.setOnClickListener {
-            startActivity(Intent(this@classify_painting, ExploreActivity::class.java))
         }
 
+        binding.classifyImageTitle.setOnClickListener {
+            startActivity(Intent(this@ClassifyPainting, ExploreActivity::class.java))
+        }
 
-        var artist_labels = application.assets.open("labels.txt").bufferedReader().readLines()
-        var style_labels = application.assets.open("style_labels.txt").bufferedReader().readLines()
-
-        var imageProcessor = ImageProcessor.Builder()
+        artistLabels = application.assets.open("labels.txt").bufferedReader().readLines()
+        styleLabels = application.assets.open("style_labels.txt").bufferedReader().readLines()
+        imageProcessor = ImageProcessor.Builder()
             .add(ResizeOp(244, 244, ResizeOp.ResizeMethod.BILINEAR))
             .build()
 
-        upload_button.setOnClickListener {
-            upload_image()
+        binding.classifyImageUploadButton.setOnClickListener {
+            uploadImage()
         }
-        image_uploaded.setOnClickListener {
-            upload_image()
-        }
-
-        artist_predict_button.setOnClickListener {
-
-            var tensorImage = TensorImage(DataType.FLOAT32)
-            tensorImage.load(bitmap)
-            tensorImage = imageProcessor.process(tensorImage)
-
-            val model = ArtistModel.newInstance(this)
-
-            val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 244, 244, 3), DataType.FLOAT32)
-            inputFeature0.loadBuffer(tensorImage.buffer)
-
-            val outputs = model.process(inputFeature0)
-            val outputFeature0 = outputs.outputFeature0AsTensorBuffer.floatArray
-
-            var maxIdx = 0
-            outputFeature0.forEachIndexed{index, fl ->
-                if(outputFeature0[maxIdx]<fl){
-                    maxIdx = index
-                }
-            }
-
-            if(artists.isNotEmpty()){
-                show_artist_result(artist_labels[maxIdx], artists)
-            }
-            else{
-                GlobalScope.launch {
-                    //artists = API.initialize_artists {  }
-
-                    try{
-
-                        val api = APIRequests()
-                        val response = api.retrofitAPI.get_all_artists()
-                        if(response.isSuccessful){
-                            var temp_artists = response.body()?.artistList
-
-                            var name: String
-                            var img: Bitmap?
-                            for (i in temp_artists!!.indices) {
-                                name = temp_artists[i].name.toString()
-                                val Bytes: ByteArray = decodeImage(temp_artists[i].a_image)!!
-                                img = BitmapFactory.decodeByteArray(Bytes, 0, Bytes.size)
-                                artists.add(Artist(name, img))
-                            }
-                        }
-
-                        else{
-
-                        }
-                    }catch (e:Exception){
-                        Log.i("hoba lala", e.message!!)
-                    }
-                    withContext(Dispatchers.Main){
-                        show_artist_result(artist_labels[maxIdx], artists)
-                    }
-
-                }
-
-            }
-
-            model.close()
+        binding.classifyImageUploaded.setOnClickListener {
+            uploadImage()
         }
 
-        style_predict_button.setOnClickListener {
-
-            var tensorImage = TensorImage(DataType.FLOAT32)
-            tensorImage.load(bitmap)
-            tensorImage = imageProcessor.process(tensorImage)
-
-            val model = StyleModel.newInstance(this)
-
-            val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 244, 244, 3), DataType.FLOAT32)
-            inputFeature0.loadBuffer(tensorImage.buffer)
-
-            val outputs = model.process(inputFeature0)
-            val outputFeature0 = outputs.outputFeature0AsTensorBuffer.floatArray
-
-            var maxIdx = 0
-            outputFeature0.forEachIndexed{index, fl ->
-                if(outputFeature0[maxIdx]<fl){
-                    maxIdx = index
-                }
-            }
-
-            if(styles!=null){
-            show_style_result(style_labels[maxIdx], styles)
-            }
-            else{
-                GlobalScope.launch {
-                    styles = API.initialize_styles {  }
-                    show_style_result(style_labels[maxIdx], styles)
-                }
-
-            }
-            model.close()
+        binding.classifyImageArtist.setOnClickListener {
+            showArtistResult(artistClassification(), artists)
         }
 
-
-
+        binding.classifyImageStyleButton.setOnClickListener {
+            showStyleResult(styleClassification())
+        }
     }
 
-    private fun show_style_result(name: String, styles: ArrayList<Style>) {
+    private fun styleClassification(): String{
+        var tensorImage = TensorImage(DataType.FLOAT32)
+        tensorImage.load(bitmap)
+        tensorImage = imageProcessor.process(tensorImage)
+
+        val model = StyleModel.newInstance(this)
+
+        val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 244, 244, 3), DataType.FLOAT32)
+        inputFeature0.loadBuffer(tensorImage.buffer)
+
+        val outputs = model.process(inputFeature0)
+        val outputFeature0 = outputs.outputFeature0AsTensorBuffer.floatArray
+
+        var maxIdx = 0
+        outputFeature0.forEachIndexed{index, fl ->
+            if(outputFeature0[maxIdx]<fl){
+                maxIdx = index
+            }
+        }
+        model.close()
+        return styleLabels[maxIdx]
+    }
+
+    private fun artistClassification():String{
+        var tensorImage = TensorImage(DataType.FLOAT32)
+        tensorImage.load(bitmap)
+        tensorImage = imageProcessor.process(tensorImage)
+
+        val model = ArtistModel.newInstance(this)
+
+        val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 244, 244, 3), DataType.FLOAT32)
+        inputFeature0.loadBuffer(tensorImage.buffer)
+
+        val outputs = model.process(inputFeature0)
+        val outputFeature0 = outputs.outputFeature0AsTensorBuffer.floatArray
+
+        var maxIdx = 0
+        outputFeature0.forEachIndexed{index, fl ->
+            if(outputFeature0[maxIdx]<fl){
+                maxIdx = index
+            }
+        }
+
+        model.close()
+        return artistLabels[maxIdx]
+    }
+
+    private fun showStyleResult(name: String) {
 
         result = Dialog(this)
         result.requestWindowFeature(Window.ID_ANDROID_CONTENT)
         result.setContentView(R.layout.classification_result)
         result.window?.setBackgroundDrawableResource(R.drawable.curved_white_primary_stroke)
 
-        val style_img = result.findViewById<ImageView>(R.id.result_image)
-        val style_name = result.findViewById<TextView>(R.id.result_name)
-        val style_explore = result.findViewById<Button>(R.id.result_explore_button)
+        val styleImg = result.findViewById<ImageView>(R.id.result_image)
+        val styleName = result.findViewById<TextView>(R.id.result_name)
+        //val style_explore = result.findViewById<Button>(R.id.result_explore_button)
         val close = result.findViewById<ImageView>(R.id.result_close)
 
-        val img_card = result.findViewById<CardView>(R.id.result_artist_imagecard)
+        val imgCard = result.findViewById<CardView>(R.id.result_artist_imagecard)
 
-        val imageViewWidth: Int = img_card.width
-        val imageViewHeight: Int = img_card.height
+        val imageViewWidth: Int = imgCard.width
+        val imageViewHeight: Int = imgCard.height
         if (imageViewWidth > 0 && imageViewHeight > 0) {
             bitmap = Bitmap.createScaledBitmap(bitmap, imageViewWidth, imageViewHeight, true)
         }
 
         // Set the scaled bitmap to the ImageView
-        style_img.setImageBitmap(bitmap)
+        styleImg.setImageBitmap(bitmap)
 
-        style_name.text = name
+        styleName.text = name
 
         close.setOnClickListener {
-            image_uploaded.visibility = View.INVISIBLE
-            upload_linear_layout.visibility = View.VISIBLE
+            binding.classifyImageUploaded.visibility = View.INVISIBLE
+            binding.classifyImageLinearLayout.visibility = View.VISIBLE
             result.dismiss()
         }
-
         result.show()
     }
 
-    fun decodeImage(base64Img: String?): ByteArray? {
-        var imageByte: ByteArray
+    private fun decodeImage(base64Img: String?): ByteArray? {
         return Base64.getDecoder().decode(base64Img)
     }
 
-    private fun show_artist_result(name: String, artists: ArrayList<Artist>) {
+    private fun showArtistResult(name: String, artists: ArrayList<Artist>) {
 
         result = Dialog(this)
         result.requestWindowFeature(Window.ID_ANDROID_CONTENT)
         result.setContentView(R.layout.classification_result)
         result.window?.setBackgroundDrawableResource(R.drawable.curved_white_primary_stroke)
 
-        val artist_img = result.findViewById<ImageView>(R.id.result_image)
-        val artist_name = result.findViewById<TextView>(R.id.result_name)
-        val artist_explore = result.findViewById<Button>(R.id.result_explore_button)
+        val artistImg = result.findViewById<ImageView>(R.id.result_image)
+        val artistName = result.findViewById<TextView>(R.id.result_name)
+        //val artist_explore = result.findViewById<Button>(R.id.result_explore_button)
         val close = result.findViewById<ImageView>(R.id.result_close)
         lateinit var artist: Artist
 
         for(a in artists){
-            if(a.name.equals(name)){
+            if(a.name == name){
                 artist = a
                 break
             }
         }
-        artist_img.setImageBitmap(artist.image)
-        artist_name.text = name
+        artistImg.setImageBitmap(artist.image)
+        artistName.text = name
 
         close.setOnClickListener {
-            image_uploaded.visibility = View.INVISIBLE
-            upload_linear_layout.visibility = View.VISIBLE
+            binding.classifyImageUploaded.visibility = View.INVISIBLE
+            binding.classifyImageLinearLayout.visibility = View.VISIBLE
             result.dismiss()
         }
 
@@ -307,19 +205,60 @@ class classify_painting : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if(requestCode == 100){
-            var uri = data?.data
+            val uri = data?.data
             bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver,uri)
-            image_uploaded.setImageBitmap(bitmap)
-            image_uploaded.visibility = View.VISIBLE
-            upload_linear_layout.visibility = View.INVISIBLE
+            binding.classifyImageUploaded.setImageBitmap(bitmap)
+            binding.classifyImageUploaded.visibility = View.VISIBLE
+            binding.classifyImageLinearLayout.visibility = View.INVISIBLE
         }
     }
 
-
-    fun upload_image(){
-        var intent: Intent = Intent()
+    private fun uploadImage(){
+        val intent = Intent()
         intent.action = Intent.ACTION_GET_CONTENT
         intent.type = "image/*"
         startActivityForResult(intent, 100)
+    }
+
+    private suspend fun populateArtists(){
+        try{
+            val response = Api.retrofitService.get_all_artists()
+            if(response.isSuccessful){
+                val tempArtists = response.body()?.artistList
+
+                var name: String
+                var image: Bitmap?
+                for (i in tempArtists!!.indices) {
+                    name = tempArtists[i].name.toString()
+                    val bytes: ByteArray = decodeImage(tempArtists[i].a_image)!!
+                    image = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                    artists.add(Artist(name, image))
+                }
+            }
+        }catch (e:Exception){
+            Log.i("backend error", e.message!!)
+            populateArtists()
+        }
+    }
+
+    private suspend fun populateStyles(){
+        try{
+            val response = Api.retrofitService.get_all_styles()
+            if(response.isSuccessful){
+                val tempStyles = response.body()?.artStyleList
+
+                var name: String
+                var image: Bitmap?
+                for (i in tempStyles!!.indices) {
+                    name = tempStyles[i].s_name.toString()
+                    val bytes: ByteArray = decodeImage(tempStyles[i].s_image)!!
+                    image = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                    styles.add(Style(name, "",image))
+                }
+            }
+        }catch (e:Exception){
+            Log.i("backend error", e.message!!)
+            populateStyles()
+        }
     }
 }

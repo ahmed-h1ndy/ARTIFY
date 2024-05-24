@@ -33,7 +33,7 @@
             android:name=".Game.game_main"
             android:exported="true" />
         <activity
-            android:name=".Classify.classify_painting"
+            android:name=".Classify.ClassifyPainting"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

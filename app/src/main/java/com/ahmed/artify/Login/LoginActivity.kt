@@ -8,7 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
-import com.ahmed.artify.Classify.classify_painting
+import com.ahmed.artify.Classify.ClassifyPainting
 import com.ahmed.artify.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -56,7 +56,7 @@ class LoginActivity : AppCompatActivity() {
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                 if(task.isSuccessful){
                     Toast.makeText(applicationContext, "Signed in", Toast.LENGTH_SHORT).show()
-                    val go_to_upload = Intent(this, classify_painting::class.java)
+                    val go_to_upload = Intent(this, ClassifyPainting::class.java)
                     startActivity(go_to_upload)
                 }
                 else{

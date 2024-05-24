@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Classify.classify_painting">
+    tools:context=".Classify.ClassifyPainting">
 
     <TextView
         android:id="@+id/classify_image_title"
@@ -32,15 +32,27 @@
         android:visibility="invisible"
         />
 
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/classify_image_title"
+        android:id="@+id/classify_image_progress_bar"
+        android:background="@drawable/upload_image_background"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="16dp"
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/classify_image_title"
-        android:id="@+id/classify_image_upload_image"
+        android:id="@+id/classify_image_linear_layout"
         android:background="@drawable/upload_image_background"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="16dp"
+        android:visibility="invisible"
         >
         <ImageView
             android:layout_gravity="center"
@@ -73,7 +85,7 @@
         android:layout_marginTop="8dp"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        app:layout_constraintTop_toBottomOf="@id/classify_image_upload_image"
+        app:layout_constraintTop_toBottomOf="@id/classify_image_linear_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/inquire"/>
@@ -86,7 +98,7 @@
         android:text="You want to know about ..?"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/classify_image_upload_image"
+        app:layout_constraintTop_toBottomOf="@+id/classify_image_linear_layout"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:fontFamily="@font/inter"/>
@@ -102,7 +114,8 @@
         app:layout_constraintTop_toBottomOf="@+id/textView"
         android:textColor="@color/white"
         android:fontFamily="@font/inter"
-        android:background="@drawable/button_primary"/>
+        android:background="@drawable/button_primary"
+        android:visibility="invisible"/>
 
     <Button
         android:layout_marginTop="32dp"
@@ -115,7 +128,8 @@
         app:layout_constraintTop_toBottomOf="@+id/textView"
         android:textColor="@color/white"
         android:fontFamily="@font/inter"
-        android:background="@drawable/button_primary" />
+        android:background="@drawable/button_primary"
+        android:visibility="invisible"/>
     <fragment
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
