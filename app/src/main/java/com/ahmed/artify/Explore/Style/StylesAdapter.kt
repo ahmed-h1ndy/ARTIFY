@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.ahmed.artify.GameExpand.ExploreExpandActivity
+import com.ahmed.artify.ExploreExpand.ExploreExpandActivity
 import com.ahmed.artify.Helpers.Style
 import com.ahmed.artify.R
 import java.util.ArrayList

@@ -3,23 +3,26 @@ package com.ahmed.artify.Game
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import com.ahmed.artify.Game.Artist.game_artist
-import com.ahmed.artify.R
+import com.ahmed.artify.Game.Artist.GameArtist
+import com.ahmed.artify.Game.Style.GameStyle
+import com.ahmed.artify.databinding.ActivityGameMainBinding
 
 class game_main : AppCompatActivity() {
 
-    lateinit var artist_quiz:Button
-    lateinit var style_quiz:Button
+    lateinit var binding : ActivityGameMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_game_main)
+        binding = ActivityGameMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        artist_quiz = findViewById(R.id.main_game_artist_button)
-        style_quiz = findViewById(R.id.main_game_style_button)
 
-        artist_quiz.setOnClickListener {
-            val intent = Intent(applicationContext, game_artist::class.java)
+        binding.mainGameArtistButton.setOnClickListener {
+            val intent = Intent(applicationContext, GameArtist::class.java)
+            startActivity(intent)
+        }
+
+        binding.mainGameStyleButton.setOnClickListener {
+            val intent = Intent(applicationContext, GameStyle::class.java)
             startActivity(intent)
         }
     }

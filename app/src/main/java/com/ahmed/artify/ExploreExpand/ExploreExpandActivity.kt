@@ -1,4 +1,4 @@
-package com.ahmed.artify.GameExpand
+package com.ahmed.artify.ExploreExpand
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

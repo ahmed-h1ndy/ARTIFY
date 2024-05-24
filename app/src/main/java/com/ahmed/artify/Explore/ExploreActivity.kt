@@ -16,7 +16,6 @@ class ExploreActivity : AppCompatActivity() {
     lateinit var artists_button: Button
     lateinit var styles_button: Button
     lateinit var explore_fragment: FragmentContainerView
-    lateinit var nav_bar: LinearLayout
 
     lateinit var selected_button: Button
     lateinit var not_selected: Button
@@ -61,13 +60,9 @@ class ExploreActivity : AppCompatActivity() {
                 override fun onAnimationEnd(animation: Animation) {
                     not_selected.setBackgroundResource(R.drawable.button_primary)
                     not_selected.setTextColor(Color.WHITE)
-
-
                 }
 
-                override fun onAnimationRepeat(animation: Animation) {
-
-                }
+                override fun onAnimationRepeat(animation: Animation) {}
             })
             selected_button.startAnimation(ta)
         }
@@ -96,20 +91,14 @@ class ExploreActivity : AppCompatActivity() {
                     override fun onAnimationEnd(animation: Animation) {
                         not_selected.setBackgroundResource(R.drawable.button_primary)
                         not_selected.setTextColor(Color.WHITE)
-
-
-
                     }
 
                     override fun onAnimationRepeat(animation: Animation) {
-
                     }
                 })
                 selected_button.startAnimation(ta)
             }
         }
-
-
     }
 
 }
