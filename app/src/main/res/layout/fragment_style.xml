@@ -6,7 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".Explore.Style.style_fragment">
 
+    <ProgressBar
+        android:id="@+id/style_loading"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
+        android:visibility="invisible"
         android:id="@+id/style_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

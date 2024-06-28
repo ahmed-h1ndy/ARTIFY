@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,6 +32,8 @@ class style_fragment : Fragment(R.layout.fragment_style) {
         MainScope().launch(Dispatchers.IO) {
             populateStyles()
             withContext(Dispatchers.Main) {
+                style_recycler.visibility = View.VISIBLE
+                view.findViewById<ProgressBar>(R.id.style_loading).visibility = View.GONE
                 style_recycler.adapter = StylesAdapter(styles, requireContext())
                 style_recycler.layoutManager = GridLayoutManager(context, 2)
             }

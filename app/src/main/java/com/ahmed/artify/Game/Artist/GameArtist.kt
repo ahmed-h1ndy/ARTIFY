@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.TextView
@@ -42,6 +43,8 @@ class GameArtist : AppCompatActivity() {
         MainScope().launch(Dispatchers.IO) {
             populateArtists()
             withContext(Dispatchers.Main) {
+                binding.gameArtistLoading.visibility = View.GONE
+                binding.gameArtistLoaded.visibility = View.VISIBLE
                 startGame(0)
             }
         }

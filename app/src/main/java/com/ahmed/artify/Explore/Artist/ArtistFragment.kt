@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -41,6 +42,8 @@ class artist_fragment : Fragment(R.layout.fragment_artist) {
              */
             populateArtsyArtists()
             withContext(Dispatchers.Main) {
+                artist_recycler.visibility = View.VISIBLE
+                view.findViewById<ProgressBar>(R.id.artist_loading).visibility = View.GONE
                 artist_recycler.adapter = ArtistsAdapter2(artists, requireContext())
                 artist_recycler.layoutManager = GridLayoutManager(context, 3)
 
@@ -71,9 +74,9 @@ class artist_fragment : Fragment(R.layout.fragment_artist) {
 
     private suspend fun populateArtsyArtists(){
         try{
-            val random = Random.nextInt(100)*20
+            val random = Random.nextInt(10)*10
 
-            val response = ArtsyApiObject.retrofitService.getArtists(20, random, true, "-trending")
+            val response = ArtsyApiObject.retrofitService.getArtists(10, random, true, "-trending")
             if(response.isSuccessful){
                 artists = response.body()?.embedded!!.artists
 

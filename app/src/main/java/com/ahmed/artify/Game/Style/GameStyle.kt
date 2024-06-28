@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.TextView
@@ -39,6 +40,7 @@ class GameStyle : AppCompatActivity() {
         binding = ActivityGameStyleBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.quizStyleOptionsLabel.text = "What is the Style?"
         allOptions = listOf("Art Nouveau",
             "Expressionism",
             "Japanese Art",
@@ -54,6 +56,8 @@ class GameStyle : AppCompatActivity() {
         MainScope().launch(Dispatchers.IO) {
             populateStyles()
             withContext(Dispatchers.Main) {
+                binding.gameStyleLoading.visibility = View.GONE
+                binding.gameStyleLoaded.visibility = View.VISIBLE
                 startGame(0)
             }
         }

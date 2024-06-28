@@ -1,4 +1,4 @@
-package com.ahmed.artify.Login
+package com.ahmed.artify.Register
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +10,6 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.ahmed.artify.Classify.ClassifyPainting
 import com.ahmed.artify.R
-import com.ahmed.artify.Register.RegisterActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -24,33 +23,36 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
 
-class LoginActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
-    lateinit var loginSignIn:Button
+    lateinit var loginSignIn: Button
     lateinit var loginEmailValue: EditText
     lateinit var loginPasswordValue: EditText
-    lateinit var googleSignIn:ImageView
-    lateinit var mGoogleSignInClient:GoogleSignInClient
+    lateinit var mGoogleSignInClient: GoogleSignInClient
     val google_flag = 10
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_register)
 
         auth = Firebase.auth
 
-        loginSignIn = findViewById(R.id.login_sign_in)
-        loginEmailValue = findViewById(R.id.login_email_value)
-        loginPasswordValue = findViewById(R.id.login_password_value)
-        googleSignIn = findViewById(R.id.login_google_icon)
+        loginSignIn = findViewById(R.id.signup_button)
+        loginEmailValue = findViewById(R.id.signup_email_value)
+        loginPasswordValue = findViewById(R.id.signup_password_value)
 
         loginSignIn.setOnClickListener{
             val email = loginEmailValue.text.toString()
             val password = loginPasswordValue.text.toString()
             if(email.isBlank()||password.isBlank()){
                 Toast.makeText(applicationContext, "invalid email or password", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if(findViewById<EditText>(R.id.signup_re_password_value).text.toString() != password){
+                Toast.makeText(applicationContext, "passwords don't match", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -73,21 +75,9 @@ class LoginActivity : AppCompatActivity() {
             .requestEmail()
             .build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
-        googleSignIn.setOnClickListener{
-            googleSignInFunction()
-        }
-
-        findViewById<Button>(R.id.login_sign_up).setOnClickListener{
-            val intent = Intent(applicationContext, RegisterActivity::class.java)
-            startActivity(intent)
-        }
 
     }
 
-    private fun googleSignInFunction() {
-        val intent: Intent = mGoogleSignInClient.signInIntent
-        startActivityForResult(intent, google_flag)
-    }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -96,7 +86,7 @@ class LoginActivity : AppCompatActivity() {
             val task : Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
 
             try{
-                val account:GoogleSignInAccount = task.getResult(ApiException::class.java)
+                val account: GoogleSignInAccount = task.getResult(ApiException::class.java)
                 googleAuth(account.idToken)
             }
             catch (e:Exception){
@@ -114,5 +104,4 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-
 }

@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.ahmed.artify.R
 import com.ahmed.artify.RetrofitClass.Api
 import com.ahmed.artify.RetrofitClass.ApiRequests
@@ -43,17 +45,22 @@ class ExploreExpandActivity : AppCompatActivity() {
         if(type.equals("style")){
             MainScope().launch {
                 fill_japanese()
+                findViewById<ConstraintLayout>(R.id.expand_loaded).visibility = View.VISIBLE
+                findViewById<ProgressBar>(R.id.expand_loading).visibility = View.GONE
             }
 
         }
         else{
-            fill_artist(type!!)
+            MainScope().launch {
+                fill_artist(type!!)
+                findViewById<ConstraintLayout>(R.id.expand_loaded).visibility = View.VISIBLE
+                findViewById<ProgressBar>(R.id.expand_loading).visibility = View.GONE
+            }
         }
     }
 
-    private fun fill_artist(id: String) {
+    private suspend fun fill_artist(id: String) {
 
-        MainScope().launch {
             try{
                 val res = ArtsyApiObject.retrofitService.getArtworks(3, id)
                 if(res.isSuccessful){
@@ -91,18 +98,6 @@ class ExploreExpandActivity : AppCompatActivity() {
             }catch(e:Exception){
                 Log.i("backend error", e.toString())
             }
-        }
-
-
-        /*example_image_1.setImageResource(R.drawable.van_gogh_2)
-        example_image_2.setImageResource(R.drawable.van_gogh_1)
-        example_name_1.text = "Fishing Boats on the Beach"
-        example_name_2.text = "The Starry Night"
-        name.text = "Vincent van Gogh"
-        description.text = "Vincent van Gogh was a Dutch Post-Impressionist painter who is considered one of the greatest artists of all time. He was born on March 30, 1853, in Zundert, Netherlands, and tragically died by suicide at the age of 37 on July 29, 1890. Van Gogh's work is known for its emotional honesty, bold colors, and expressive brushwork."
-   */
-
-
     }
 
     private suspend fun fill_japanese() {
