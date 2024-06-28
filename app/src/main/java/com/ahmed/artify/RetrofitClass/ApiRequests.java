@@ -6,7 +6,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ahmed.artify.Helpers.Artist;
+import com.ahmed.artify.Helpers.ArtistLocal;
 import com.ahmed.artify.Helpers.Style;
 
 import java.util.ArrayList;
@@ -144,10 +144,10 @@ public class ApiRequests {
         return paintingArrayList;
     }
     private List<ArtArtist> temp_artists;
-    public ArrayList<Artist> initialize_artists(onArtistsInitializedListener listener)
+    public ArrayList<ArtistLocal> initialize_artists(onArtistsInitializedListener listener)
     {
         callArtist =apiInterface.get_all_artists();
-        ArrayList<Artist> artists = new ArrayList<>();
+        ArrayList<ArtistLocal> artistLocals = new ArrayList<>();
         callArtist.enqueue(new Callback<ArtistData>() {
             @Override
             public void onResponse(Call<ArtistData> call, Response<ArtistData> response) {
@@ -159,10 +159,10 @@ public class ApiRequests {
                     name = String.valueOf(temp_artists.get(i).getName());
                     byte[] Bytes= decodeImage(temp_artists.get(i).getA_image());
                     image = BitmapFactory.decodeByteArray(Bytes, 0, Bytes.length);
-                    artists.add(new Artist(name, image));
+                    artistLocals.add(new ArtistLocal(name, image));
                 }
                 if(listener!=null){
-                    listener.onArtistsInitialized(artists);
+                    listener.onArtistsInitialized(artistLocals);
                 }
             }
             @Override
@@ -177,11 +177,11 @@ public class ApiRequests {
         catch(Exception e){
             Log.i("use corutoins baby", e.getMessage());
         }
-        return artists;
+        return artistLocals;
     }
 
     public interface onArtistsInitializedListener{
-        void onArtistsInitialized(ArrayList<Artist> artists);
+        void onArtistsInitialized(ArrayList<ArtistLocal> artistLocals);
     }
     private List<ArtStyle> ArtStyleArrayList;
     public ArrayList<Style> initialize_styles(final OnStylesInitializedListener listener)

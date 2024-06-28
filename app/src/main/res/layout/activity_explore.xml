@@ -7,7 +7,7 @@
     tools:context=".Explore.ExploreActivity">
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/explore_main_label"
         android:layout_marginTop="32dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,51 +19,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout2"
-        android:background="@drawable/curved_white_black_stroke"
-        android:layout_marginTop="32dp"
-        android:layout_marginHorizontal="8dp"
-        android:padding="12dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12">
-
-        <ImageView
-            android:id="@+id/imageView10"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginLeft="8dp"
-            android:src="@drawable/gray_search"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/editTextText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:layout_marginLeft="12dp"
-            android:ems="10"
-            android:inputType="text"
-            android:hint="Liam Princip"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView10"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView10"
-            app:layout_constraintTop_toTopOf="@+id/imageView10" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/explore_main_switch_layout"
         android:layout_marginTop="25dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/explore_main_label"
         android:background="@drawable/button_primary"
         android:padding="4dp"
         android:layout_marginHorizontal="8dp"
@@ -106,7 +70,7 @@
         app:layout_constraintBottom_toTopOf="@+id/explore_nav_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/explore_main_switch_layout" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/explore_nav_bar"

@@ -1,13 +1,21 @@
 package com.ahmed.artify.Game.Artist
 
+import android.animation.ObjectAnimator
+import android.app.Dialog
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.ahmed.artify.Helpers.Artist
+import android.view.Window
+import android.widget.Button
+import android.widget.TextView
+import androidx.core.content.ContextCompat
+import com.ahmed.artify.Helpers.ArtistLocal
+import com.ahmed.artify.R
 import com.ahmed.artify.RetrofitClass.Api
 import com.ahmed.artify.databinding.ActivityGameArtistBinding
+import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -17,10 +25,11 @@ import java.util.Random
 
 class GameArtist : AppCompatActivity() {
 
-    private var artists: ArrayList<Artist> = ArrayList()
+    private var artistLocals: ArrayList<ArtistLocal> = ArrayList()
     private var allOptions: List<String> = ArrayList()
     private var answers: ArrayList<String> = ArrayList()
     private var score: Int = 0
+    private var askedQuestions = 0
 
     lateinit var binding: ActivityGameArtistBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,32 +47,111 @@ class GameArtist : AppCompatActivity() {
         }
     }
 
-    private fun startGame(index:Int) {
+    private suspend fun startGame(index:Int) {
+
         if(index==10){
-            //show result
+            show_result()
             return
         }
+
+        binding.quizArtistProgressBar.max = 0
+        var currentProgress = 0
+        ObjectAnimator.ofInt(binding.quizArtistProgressBar, "progress", currentProgress)
+            .setDuration(100)
+            .start()
+
+
+        binding.quizArtistProgressBar.max = 1000
+        currentProgress = 1000
+        ObjectAnimator.ofInt(binding.quizArtistProgressBar, "progress", currentProgress)
+            .setDuration(5000)
+            .start()
+
+        MainScope().launch {
+            delay(5000)
+            Log.i("hoba lala", "index = $index, asked = $askedQuestions")
+            if(index == askedQuestions-1&& askedQuestions!=10){
+                Log.i("hoba lala", "index = $index, asked = $askedQuestions")
+                startGame(index+1)
+            }
+        }
+
+        binding.quizArtistAnswer1.background = ContextCompat.getDrawable(this, R.drawable.curved_white_primary_stroke_small)
+        binding.quizArtistAnswer2.background = ContextCompat.getDrawable(this, R.drawable.curved_white_primary_stroke_small)
+        binding.quizArtistAnswer3.background = ContextCompat.getDrawable(this, R.drawable.curved_white_primary_stroke_small)
+        binding.quizArtistScore.text = "$score / ${askedQuestions++}"
 
         getAnswers(index)
         populateAnswers()
 
-        binding.quizArtistQuestionImg.setImageBitmap(artists[index].image)
+        binding.quizArtistQuestionImg.setImageBitmap(artistLocals[index].image)
 
         binding.quizArtistAnswer1.setOnClickListener{
-            checkAnswer(binding.quizArtistAnswer1.text.toString(), index)
+
+            MainScope().launch {
+                checkAnswer(
+                    binding.quizArtistAnswer1.text.toString(),
+                    index,
+                    binding.quizArtistAnswer1
+                )
+            }
         }
 
         binding.quizArtistAnswer2.setOnClickListener{
-            checkAnswer(binding.quizArtistAnswer2.text.toString(), index)
+
+            MainScope().launch {
+                checkAnswer(
+                    binding.quizArtistAnswer2.text.toString(),
+                    index,
+                    binding.quizArtistAnswer2)
+            }
         }
 
         binding.quizArtistAnswer3.setOnClickListener{
-            checkAnswer(binding.quizArtistAnswer3.text.toString(), index)
+
+            MainScope().launch {
+                checkAnswer(
+                    binding.quizArtistAnswer3.text.toString(),
+                    index,
+                    binding.quizArtistAnswer3)
+            }
         }
     }
 
-    private fun checkAnswer(answer: String, index: Int) {
-        if(answer == artists[index].name){
+    private fun show_result() {
+        val result = Dialog(this)
+        result.requestWindowFeature(Window.ID_ANDROID_CONTENT)
+        result.setContentView(R.layout.game_result)
+        result.window?.setBackgroundDrawableResource(R.drawable.curved_white_primary_stroke)
+
+        val final_score = result.findViewById<TextView>(R.id.game_result_score)
+        val play_again = result.findViewById<Button>(R.id.game_result_play_again)
+
+        final_score.text = "Score : $score / $askedQuestions"
+
+        play_again.setOnClickListener {
+            MainScope().launch {
+                score = 0
+                askedQuestions = 0
+                startGame(0)
+            }
+            result.dismiss()
+        }
+
+        result.show()
+    }
+
+    private suspend fun checkAnswer(answer: String, index: Int, answerButton: Button) {
+        if(answer == artistLocals[index].name){
+
+            answerButton.background = ContextCompat.getDrawable(this, R.drawable.curved_white_green_stroke_small)
+            score++
+            delay(300)
+            startGame(index+1)
+        }
+        else{
+            answerButton.background = ContextCompat.getDrawable(this, R.drawable.curved_white_red_stroke_small)
+            delay(300)
             startGame(index+1)
         }
     }
@@ -84,7 +172,7 @@ class GameArtist : AppCompatActivity() {
 
         answers.clear()
 
-        answers.add(artists[index].name)
+        answers.add(artistLocals[index].name)
         while(true){
             answers.add(allOptions[Random().nextInt(10)])
             if(answers[0]!=answers[1]) {
@@ -117,7 +205,7 @@ class GameArtist : AppCompatActivity() {
                     name = tempArtists[i].name.toString()
                     val bytes: ByteArray = decodeImage(tempArtists[i].a_image)!!
                     image = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                    artists.add(Artist(name, image))
+                    artistLocals.add(ArtistLocal(name, image))
                 }
             }
         }catch (e:Exception){

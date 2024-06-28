@@ -10,4 +10,6 @@
     <color name="sixth">#280A82</color>
     <color name="seventh">#FFD0EC</color>
     <color name="primary">#C11384</color>
+    <color name="green">#00BD35</color>
+    <color name="red">#ED0000</color>
 </resources>

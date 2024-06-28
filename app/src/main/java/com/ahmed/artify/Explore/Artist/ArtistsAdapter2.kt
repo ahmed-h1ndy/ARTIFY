@@ -9,12 +9,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ahmed.artify.ExploreExpand.ExploreExpandActivity
-import com.ahmed.artify.Helpers.ArtistLocal
 import com.ahmed.artify.R
+import com.ahmed.artify.artsy.Artists.Artist
+import com.bumptech.glide.Glide
 
-public class ArtistsAdapter(private val artistLocals: ArrayList<ArtistLocal>,
-                            private val context:Context)
-    : RecyclerView.Adapter<ArtistsAdapter.artists_view_holder>() {
+public class ArtistsAdapter2(private val artists: List<Artist>,
+                             private val context:Context)
+    : RecyclerView.Adapter<ArtistsAdapter2.artists_view_holder>() {
     inner class artists_view_holder(view: View): RecyclerView.ViewHolder(view){
         val artist_image: ImageView = view.findViewById(R.id.artist_image)
         val artist_name: TextView = view.findViewById(R.id.artist_name)
@@ -27,17 +28,19 @@ public class ArtistsAdapter(private val artistLocals: ArrayList<ArtistLocal>,
     }
 
     override fun getItemCount(): Int {
-        return artistLocals.size
+        return artists.size
     }
 
     override fun onBindViewHolder(holder: artists_view_holder, position: Int) {
-        val artist = artistLocals[position]
+        val artist = artists[position]
         holder.artist_name.text = artist.name
-        holder.artist_image.setImageBitmap(artist.image)
+        Glide.with(holder.artist_image.context)
+            .load(artist.artistLinks.thumbnail.href)
+            .into(holder.artist_image)
 
         holder.artist_image.setOnClickListener {
             val intent = Intent(context, ExploreExpandActivity::class.java)
-            intent.putExtra("type", "artist")
+            intent.putExtra("type", artist.id)
             context.startActivity(intent)
         }
     }

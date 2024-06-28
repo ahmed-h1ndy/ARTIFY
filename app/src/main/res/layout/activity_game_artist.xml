@@ -21,7 +21,7 @@
         android:id="@+id/quiz_artist_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1/15"
+        android:text="1/10"
         android:textSize="24sp"
         android:fontFamily="@font/inter"
         android:textColor="@color/fourth"
@@ -125,7 +125,7 @@
         app:layout_constraintTop_toBottomOf="@+id/quiz_artist_answer2" />
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/quiz_artist_progress_bar"
+        android:id="@+id/quiz_artist_progress_baar"
         android:layout_width="match_parent"
         android:layout_height="12dp"
         android:progress="60"
@@ -138,9 +138,28 @@
         app:trackThickness="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/quiz_artist_back"
+        android:visibility="gone"
+        />
+
+    <ProgressBar
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:id="@+id/quiz_artist_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="12dp"
+        android:progress="100"
+        android:progressTint="@color/primary"
+        android:progressBackgroundTint="@color/white"
+        android:layout_marginTop="32dp"
+        android:layout_marginHorizontal="64dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:trackCornerRadius="8dp"
+        app:trackThickness="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/quiz_artist_back"
+
         />
     <fragment
-        android:id="@+id/game_artist_bottom_bar"
+        android:id="@+id/game_style_bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="128dp"
         android:name="com.ahmed.artify.Helpers.bottom_nav_bar"

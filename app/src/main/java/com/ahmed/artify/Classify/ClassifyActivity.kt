@@ -14,7 +14,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.ahmed.artify.Explore.ExploreActivity
-import com.ahmed.artify.Helpers.Artist
+import com.ahmed.artify.Helpers.ArtistLocal
 import com.ahmed.artify.Helpers.Style
 import com.ahmed.artify.R
 import com.ahmed.artify.RetrofitClass.Api
@@ -42,7 +42,7 @@ class ClassifyPainting : AppCompatActivity() {
     private lateinit var artistLabels: List<String>
     private lateinit var styleLabels: List<String>
     lateinit var api:ApiRequests
-    private var artists:ArrayList<Artist> = ArrayList()
+    private var artistLocals:ArrayList<ArtistLocal> = ArrayList()
     private var styles: ArrayList<Style> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,7 +78,7 @@ class ClassifyPainting : AppCompatActivity() {
         }
 
         binding.classifyImageArtist.setOnClickListener {
-            showArtistResult(artistClassification(), artists)
+            showArtistResult(artistClassification(), artistLocals)
         }
 
         binding.classifyImageStyleButton.setOnClickListener {
@@ -170,7 +170,7 @@ class ClassifyPainting : AppCompatActivity() {
         return Base64.getDecoder().decode(base64Img)
     }
 
-    private fun showArtistResult(name: String, artists: ArrayList<Artist>) {
+    private fun showArtistResult(name: String, artistLocals: ArrayList<ArtistLocal>) {
 
         result = Dialog(this)
         result.requestWindowFeature(Window.ID_ANDROID_CONTENT)
@@ -181,15 +181,15 @@ class ClassifyPainting : AppCompatActivity() {
         val artistName = result.findViewById<TextView>(R.id.result_name)
         //val artist_explore = result.findViewById<Button>(R.id.result_explore_button)
         val close = result.findViewById<ImageView>(R.id.result_close)
-        lateinit var artist: Artist
+        lateinit var artistLocal: ArtistLocal
 
-        for(a in artists){
+        for(a in artistLocals){
             if(a.name == name){
-                artist = a
+                artistLocal = a
                 break
             }
         }
-        artistImg.setImageBitmap(artist.image)
+        artistImg.setImageBitmap(artistLocal.image)
         artistName.text = name
 
         close.setOnClickListener {
@@ -232,7 +232,7 @@ class ClassifyPainting : AppCompatActivity() {
                     name = tempArtists[i].name.toString()
                     val bytes: ByteArray = decodeImage(tempArtists[i].a_image)!!
                     image = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                    artists.add(Artist(name, image))
+                    artistLocals.add(ArtistLocal(name, image))
                 }
             }
         }catch (e:Exception){
