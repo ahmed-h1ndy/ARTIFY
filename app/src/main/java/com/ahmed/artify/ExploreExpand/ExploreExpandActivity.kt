@@ -1,14 +1,17 @@
 package com.ahmed.artify.ExploreExpand
 
+import android.content.Intent
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.ahmed.artify.ArtistPaintings.ArtistPaintingsActivity
 import com.ahmed.artify.R
 import com.ahmed.artify.RetrofitClass.Api
 import com.ahmed.artify.RetrofitClass.ApiRequests
@@ -41,6 +44,12 @@ class ExploreExpandActivity : AppCompatActivity() {
         example_name_2 = findViewById<View>(R.id.expand_example_2).findViewById<TextView>(R.id.expand_painting_name)
         name = findViewById(R.id.expand_name)
         description = findViewById(R.id.expand_details)
+
+        findViewById<Button>(R.id.expand_more_button).setOnClickListener {
+            val intent = Intent(applicationContext, ArtistPaintingsActivity::class.java)
+            intent.putExtra("id", type)
+            startActivity(intent)
+        }
 
         if(type.equals("style")){
             MainScope().launch {

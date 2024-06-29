@@ -6,6 +6,8 @@
     android:layout_height="160dp"
     android:padding="4dp"
     android:background="@drawable/white_curved_light_primary_stroke"
+    android:layout_marginTop="16dp"
+    android:layout_marginEnd="8dp"
     >
 
     <androidx.cardview.widget.CardView

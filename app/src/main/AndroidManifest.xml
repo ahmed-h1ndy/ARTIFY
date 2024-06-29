@@ -16,6 +16,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="34">
         <activity
+            android:name=".ArtistPaintings.ArtistPaintingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".Register.RegisterActivity"
             android:exported="false" />
         <activity
@@ -35,13 +38,10 @@
             android:exported="true" />
         <activity
             android:name=".Classify.ClassifyPainting"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".Login.LoginActivity"
-            android:exported="true" >
-
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
